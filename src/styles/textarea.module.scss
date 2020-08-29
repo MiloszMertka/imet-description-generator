@@ -1,0 +1,7 @@
+@import "variables";
+@import "form-element";
+
+.textarea {
+  @include form-element;
+  resize: vertical;
+}

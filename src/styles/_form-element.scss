@@ -1,0 +1,21 @@
+@import "variables";
+
+@mixin form-element {
+  border: $base-border solid $gray;
+  border-radius: $base-border-radius;
+  padding: 0.625rem 2.375rem;
+  font-size: 1.125rem;
+  color: $black;
+  display: block;
+  width: 100%;
+  margin: {
+    top: 1.875rem;
+    bottom: 1.875rem;
+  }
+  font-family: $primary-font;
+
+  &::placeholder {
+    color: $black;
+    opacity: 1;
+  }
+}

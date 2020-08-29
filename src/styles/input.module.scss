@@ -1,0 +1,6 @@
+@import "variables";
+@import "form-element";
+
+.input {
+  @include form-element;
+}

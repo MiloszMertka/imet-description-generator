@@ -1,0 +1,16 @@
+@import "variables";
+
+.container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: $header-height;
+  border-bottom: $base-border solid $black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.125rem;
+  background-color: $white;
+}
