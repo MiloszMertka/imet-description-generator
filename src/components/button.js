@@ -8,6 +8,7 @@ const Button = ({ children, link, handleClick }) => {
       href={link}
       onClick={(event) => handleClick(event)}
       className={styles.button}
+      role={!link ? "button" : null}
     >
       {children}
     </a>

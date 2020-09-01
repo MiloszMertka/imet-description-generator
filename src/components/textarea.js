@@ -24,7 +24,7 @@ const Textarea = ({
       onChange={(event) => handleChange(event)}
       data-section={dataSection}
       data-key={dataKey}
-    ></textarea>
+    />
   );
 };
 

@@ -2,16 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { ReactSortable } from "react-sortablejs";
 
-import controlsStyles from "../styles/controls.module.scss"; // used to target handle for rect-sortable
+import controlsStyles from "../styles/controls.module.scss";
 
-import { SECTIONS, KEYS } from "../constants";
+import { KEYS, SECTIONS } from "../constants";
 
-import Section from "./section";
-import Input from "./input";
 import Button from "./button";
+import Section from "./section";
 import Controls from "./controls";
+import Input from "./input";
 
-const SpecificationSection = ({
+const SetSection = ({
   data,
   handleChange,
   handleButtonClick,
@@ -21,32 +21,23 @@ const SpecificationSection = ({
   const rows = data.map((item) => (
     <div key={item.id}>
       <Controls
-        handleCrossClick={() =>
-          handleCrossClick(SECTIONS.SPECIFICATION, item.id)
-        }
+        handleCrossClick={() => handleCrossClick(SECTIONS.SET, item.id)}
       />
       <Input
         handleChange={(event) => handleChange(event)}
-        id={`${item.id}_label`}
-        value={item.label}
-        dataSection={SECTIONS.SPECIFICATION}
-        dataKey={KEYS.LABEL}
-      />
-      <Input
-        handleChange={(event) => handleChange(event)}
-        id={`${item.id}_value`}
+        id={item.id}
         value={item.value}
-        dataSection={SECTIONS.SPECIFICATION}
+        dataSection={SECTIONS.SET}
         dataKey={KEYS.VALUE}
       />
     </div>
   ));
 
   return (
-    <Section title={`Dane techniczne`}>
+    <Section title={`Zawartość zestawu`}>
       <ReactSortable
         list={data}
-        setList={(newState) => handleReorder(SECTIONS.SPECIFICATION, newState)}
+        setList={(newState) => handleReorder(SECTIONS.SET, newState)}
         handle={`.${controlsStyles.draggable}`}
       >
         {rows}
@@ -56,7 +47,7 @@ const SpecificationSection = ({
   );
 };
 
-SpecificationSection.propTypes = {
+SetSection.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -70,4 +61,4 @@ SpecificationSection.propTypes = {
   handleReorder: PropTypes.func.isRequired,
 };
 
-export default SpecificationSection;
+export default SetSection;

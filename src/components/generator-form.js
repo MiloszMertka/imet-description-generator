@@ -5,6 +5,8 @@ import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
 
 import GeneralSection from "./general-section";
 import SpecificationSection from "./specification-section";
+import SetSection from "./set-section";
+import AdditionalInfoSection from "./additional-info-section";
 
 const GeneratorForm = () => {
   const initialState = {
@@ -14,6 +16,36 @@ const GeneratorForm = () => {
       {
         id: uuidv4(),
         [KEYS.LABEL]: "",
+        [KEYS.VALUE]: "",
+      },
+      {
+        id: uuidv4(),
+        [KEYS.LABEL]: "Kod producenta",
+        [KEYS.VALUE]: "",
+      },
+      {
+        id: uuidv4(),
+        [KEYS.LABEL]: "Wyposażenie",
+        [KEYS.VALUE]: "",
+      },
+      {
+        id: uuidv4(),
+        [KEYS.LABEL]: "Opakowanie",
+        [KEYS.VALUE]: "",
+      },
+      {
+        id: uuidv4(),
+        [KEYS.LABEL]: "Producent",
+        [KEYS.VALUE]: "",
+      },
+      {
+        id: uuidv4(),
+        [KEYS.LABEL]: "EAN",
+        [KEYS.VALUE]: "",
+      },
+      {
+        id: uuidv4(),
+        [KEYS.LABEL]: "Gwarancja",
         [KEYS.VALUE]: "",
       },
     ],
@@ -70,6 +102,26 @@ const GeneratorForm = () => {
             value: "",
           }),
         };
+      case ACTION_TYPES.ADD_INPUT:
+        return {
+          ...state,
+          [action.section]: state[action.section].concat({
+            id: uuidv4(),
+            value: "",
+          }),
+        };
+      case ACTION_TYPES.DELETE_ROW:
+        return {
+          ...state,
+          [action.section]: state[action.section].filter(
+            (item) => item.id !== action.uuid
+          ),
+        };
+      case ACTION_TYPES.REORDER_ROWS:
+        return {
+          ...state,
+          [action.section]: action.newState,
+        };
       default:
         throw new Error("Invalid action type");
     }
@@ -94,6 +146,22 @@ const GeneratorForm = () => {
     dispatch({ type: ACTION_TYPES.CHANGE_VALUE, uuid, section, key, value });
   };
 
+  const handleCrossClick = (section, uuid) => {
+    dispatch({
+      type: ACTION_TYPES.DELETE_ROW,
+      section,
+      uuid,
+    });
+  };
+
+  const handleReorder = (section, newState) => {
+    dispatch({
+      type: ACTION_TYPES.REORDER_ROWS,
+      section,
+      newState,
+    });
+  };
+
   return (
     <form action="" className={styles.container}>
       <GeneralSection
@@ -110,6 +178,29 @@ const GeneratorForm = () => {
             section: SECTIONS.SPECIFICATION,
           })
         }
+        handleCrossClick={handleCrossClick}
+        handleReorder={handleReorder}
+      />
+      <SetSection
+        data={state[SECTIONS.SET]}
+        handleChange={handleChange}
+        handleButtonClick={() =>
+          dispatch({ type: ACTION_TYPES.ADD_INPUT, section: SECTIONS.SET })
+        }
+        handleCrossClick={handleCrossClick}
+        handleReorder={handleReorder}
+      />
+      <AdditionalInfoSection
+        handleReorder={handleReorder}
+        handleCrossClick={handleCrossClick}
+        handleChange={handleChange}
+        handleButtonClick={() =>
+          dispatch({
+            type: ACTION_TYPES.ADD_INPUT,
+            section: SECTIONS.ADDITIONAL_INFO,
+          })
+        }
+        data={state[SECTIONS.ADDITIONAL_INFO]}
       />
     </form>
   );

@@ -1,0 +1,22 @@
+@import "variables";
+
+.button {
+  background: none;
+  border: none;
+}
+
+.cross {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.draggable {
+  &:hover {
+    cursor: grab;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
