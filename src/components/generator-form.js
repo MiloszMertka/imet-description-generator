@@ -8,6 +8,7 @@ import SpecificationSection from "./specification-section";
 import SetSection from "./set-section";
 import AdditionalInfoSection from "./additional-info-section";
 import AdditionalSections from "./additional-sections";
+import Button from "./button";
 
 const GeneratorForm = () => {
   const initialState = {
@@ -181,6 +182,34 @@ const GeneratorForm = () => {
           ...state,
           [action.section]: action.newState,
         };
+      case ACTION_TYPES.ADD_SECTION:
+        return {
+          ...state,
+          [SECTIONS.ADDITIONAL_SECTIONS]: state[
+            SECTIONS.ADDITIONAL_SECTIONS
+          ].concat({
+            id: uuidv4(),
+            [KEYS.TITLE]: "Nazwa sekcji",
+            [KEYS.ROWS]: [
+              {
+                id: uuidv4(),
+                [KEYS.LABEL]: "",
+                [KEYS.VALUE]: "",
+              },
+            ],
+          }),
+        };
+      case ACTION_TYPES.ADD_DESCRIPTION:
+        return {
+          ...state,
+          [SECTIONS.ADDITIONAL_SECTIONS]: state[
+            SECTIONS.ADDITIONAL_SECTIONS
+          ].concat({
+            id: uuidv4(),
+            [KEYS.TITLE]: "Nagłówek",
+            [KEYS.DESCRIPTION]: "",
+          }),
+        };
       default:
         throw new Error("Invalid action type");
     }
@@ -232,6 +261,14 @@ const GeneratorForm = () => {
     });
   };
 
+  const handleAddSectionButton = () => {
+    dispatch({ type: ACTION_TYPES.ADD_SECTION });
+  };
+
+  const handleAddDescriptionButton = () => {
+    dispatch({ type: ACTION_TYPES.ADD_DESCRIPTION });
+  };
+
   return (
     <form action="" className={styles.container}>
       <GeneralSection
@@ -267,6 +304,10 @@ const GeneratorForm = () => {
         handleButtonClick={handleAddInputButtonClick}
         data={state[SECTIONS.ADDITIONAL_SECTIONS]}
       />
+      <section>
+        <Button handleClick={handleAddSectionButton}>Nowa sekcja</Button>
+        <Button handleClick={handleAddDescriptionButton}>Nowy opis</Button>
+      </section>
     </form>
   );
 };
