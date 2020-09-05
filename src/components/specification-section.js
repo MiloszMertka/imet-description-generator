@@ -4,7 +4,7 @@ import { ReactSortable } from "react-sortablejs";
 
 import controlsStyles from "../styles/controls.module.scss"; // used to target handle for rect-sortable
 
-import { SECTIONS, KEYS } from "../constants";
+import { SECTIONS, KEYS, ACTION_TYPES } from "../constants";
 
 import Section from "./section";
 import Input from "./input";
@@ -51,7 +51,13 @@ const SpecificationSection = ({
       >
         {rows}
       </ReactSortable>
-      <Button handleClick={handleButtonClick}>Nowe pole</Button>
+      <Button
+        handleClick={() =>
+          handleButtonClick(ACTION_TYPES.ADD_ROW, SECTIONS.SPECIFICATION)
+        }
+      >
+        Nowe pole
+      </Button>
     </Section>
   );
 };

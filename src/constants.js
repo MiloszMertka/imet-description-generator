@@ -18,7 +18,6 @@ export const SECTIONS = {
   ADDITIONAL_INFO: "additionalInfo",
   ATTACHMENT: "attachment",
   ADDITIONAL_SECTIONS: "additionalSections",
-  ADDITIONAL_DESCRIPTIONS: "additionalDescriptions",
 };
 
 export const KEYS = {
@@ -26,4 +25,5 @@ export const KEYS = {
   LABEL: "label",
   TITLE: "title",
   DESCRIPTION: "description",
+  ROWS: "rows",
 };

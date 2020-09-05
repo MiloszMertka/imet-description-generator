@@ -4,7 +4,7 @@ import { ReactSortable } from "react-sortablejs";
 
 import controlsStyles from "../styles/controls.module.scss";
 
-import { KEYS, SECTIONS } from "../constants";
+import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
 
 import Button from "./button";
 import Section from "./section";
@@ -46,7 +46,13 @@ const AdditionalInfoSection = ({
       >
         {rows}
       </ReactSortable>
-      <Button handleClick={handleButtonClick}>Nowe pole</Button>
+      <Button
+        handleClick={() =>
+          handleButtonClick(ACTION_TYPES.ADD_INPUT, SECTIONS.ADDITIONAL_INFO)
+        }
+      >
+        Nowe pole
+      </Button>
     </Section>
   );
 };
