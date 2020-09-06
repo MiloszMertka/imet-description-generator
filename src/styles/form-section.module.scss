@@ -1,0 +1,27 @@
+@import "variables";
+
+.button {
+  margin: {
+    left: auto;
+    right: auto;
+  }
+  width: $form-button-width;
+}
+
+.addSectionButton {
+  margin: 1.875rem auto;
+  width: $form-button-width;
+}
+
+.general {
+  padding: 0 1rem;
+}
+
+.inputRow {
+  padding: 1rem;
+}
+
+.inputRow:nth-of-type(even) {
+  background-color: rgba($gray, 0.2);
+  margin-bottom: 1.875rem;
+}

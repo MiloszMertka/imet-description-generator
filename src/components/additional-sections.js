@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { ReactSortable } from "react-sortablejs";
 
-import controlsStyles from "../styles/controls.module.scss";
+import formSectionStyles from "../styles/form-section.module.scss";
+
+import controlsStyles from "../styles/controls.module.scss"; // used to target handle for rect-sortable
 
 import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
 
@@ -21,18 +23,20 @@ const AdditionalSections = ({
 }) => {
   const sections = data.map((section) => (
     <Section key={section.id} title={section[KEYS.TITLE]}>
-      <Controls
-        handleCrossClick={() =>
-          handleCrossClick(SECTIONS.ADDITIONAL_SECTIONS, section.id)
-        }
-      />
-      <Input
-        id={section.id}
-        value={section[KEYS.TITLE]}
-        handleChange={(event) => handleChange(event)}
-        dataSection={SECTIONS.ADDITIONAL_SECTIONS}
-        dataKey={KEYS.TITLE}
-      />
+      <div className={formSectionStyles.general}>
+        <Controls
+          handleCrossClick={() =>
+            handleCrossClick(SECTIONS.ADDITIONAL_SECTIONS, section.id)
+          }
+        />
+        <Input
+          id={section.id}
+          value={section[KEYS.TITLE]}
+          handleChange={(event) => handleChange(event)}
+          dataSection={SECTIONS.ADDITIONAL_SECTIONS}
+          dataKey={KEYS.TITLE}
+        />
+      </div>
       {section.hasOwnProperty(KEYS.ROWS) ? (
         <ReactSortable
           list={section[KEYS.ROWS]}
@@ -47,7 +51,7 @@ const AdditionalSections = ({
           handle={`.${controlsStyles.draggable}`}
         >
           {section[KEYS.ROWS].map((row) => (
-            <div key={row.id}>
+            <div key={row.id} className={formSectionStyles.inputRow}>
               <Controls
                 handleCrossClick={() =>
                   handleCrossClick(SECTIONS.ADDITIONAL_SECTIONS, row.id, true)
@@ -71,13 +75,15 @@ const AdditionalSections = ({
           ))}
         </ReactSortable>
       ) : (
-        <Textarea
-          handleChange={(event) => handleChange(event)}
-          value={section[KEYS.DESCRIPTION]}
-          id={`${section.id}_description`}
-          dataSection={SECTIONS.ADDITIONAL_SECTIONS}
-          dataKey={KEYS.DESCRIPTION}
-        />
+        <div className={formSectionStyles.general}>
+          <Textarea
+            handleChange={(event) => handleChange(event)}
+            value={section[KEYS.DESCRIPTION]}
+            id={`${section.id}_description`}
+            dataSection={SECTIONS.ADDITIONAL_SECTIONS}
+            dataKey={KEYS.DESCRIPTION}
+          />
+        </div>
       )}
       {section.hasOwnProperty(KEYS.ROWS) && (
         <Button
@@ -88,6 +94,7 @@ const AdditionalSections = ({
               section.id
             )
           }
+          className={formSectionStyles.button}
         >
           Nowe pole
         </Button>

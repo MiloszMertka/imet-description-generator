@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/generator-form.module.scss";
 import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
 
+import formSectionStyles from "../styles/form-section.module.scss";
+
 import GeneralSection from "./general-section";
 import SpecificationSection from "./specification-section";
 import SetSection from "./set-section";
@@ -305,8 +307,18 @@ const GeneratorForm = () => {
         data={state[SECTIONS.ADDITIONAL_SECTIONS]}
       />
       <section>
-        <Button handleClick={handleAddSectionButton}>Nowa sekcja</Button>
-        <Button handleClick={handleAddDescriptionButton}>Nowy opis</Button>
+        <Button
+          handleClick={handleAddSectionButton}
+          className={formSectionStyles.addSectionButton}
+        >
+          Nowa sekcja
+        </Button>
+        <Button
+          handleClick={handleAddDescriptionButton}
+          className={formSectionStyles.addSectionButton}
+        >
+          Nowy opis
+        </Button>
       </section>
     </form>
   );

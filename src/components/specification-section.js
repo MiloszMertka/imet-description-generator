@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { ReactSortable } from "react-sortablejs";
 
+import formSectionStyles from "../styles/form-section.module.scss";
+
 import controlsStyles from "../styles/controls.module.scss"; // used to target handle for rect-sortable
 
 import { SECTIONS, KEYS, ACTION_TYPES } from "../constants";
@@ -19,7 +21,7 @@ const SpecificationSection = ({
   handleReorder,
 }) => {
   const rows = data.map((item) => (
-    <div key={item.id}>
+    <div key={item.id} className={formSectionStyles.inputRow}>
       <Controls
         handleCrossClick={() =>
           handleCrossClick(SECTIONS.SPECIFICATION, item.id)
@@ -55,6 +57,7 @@ const SpecificationSection = ({
         handleClick={() =>
           handleButtonClick(ACTION_TYPES.ADD_ROW, SECTIONS.SPECIFICATION)
         }
+        className={formSectionStyles.button}
       >
         Nowe pole
       </Button>

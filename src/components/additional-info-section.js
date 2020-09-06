@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { ReactSortable } from "react-sortablejs";
 
-import controlsStyles from "../styles/controls.module.scss";
+import formSectionStyles from "../styles/form-section.module.scss";
+
+import controlsStyles from "../styles/controls.module.scss"; // used to target handle for rect-sortable
 
 import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
 
@@ -19,7 +21,7 @@ const AdditionalInfoSection = ({
   handleReorder,
 }) => {
   const rows = data.map((item) => (
-    <div key={item.id}>
+    <div key={item.id} className={formSectionStyles.inputRow}>
       <Controls
         handleCrossClick={() =>
           handleCrossClick(SECTIONS.ADDITIONAL_INFO, item.id)
@@ -50,6 +52,7 @@ const AdditionalInfoSection = ({
         handleClick={() =>
           handleButtonClick(ACTION_TYPES.ADD_INPUT, SECTIONS.ADDITIONAL_INFO)
         }
+        className={formSectionStyles.button}
       >
         Nowe pole
       </Button>

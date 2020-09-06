@@ -7,7 +7,7 @@ import draggableIndicator from "../assets/images/svg/draggable-indicator.svg";
 
 const Controls = ({ handleCrossClick }) => {
   return (
-    <div>
+    <div className={styles.container}>
       <button
         className={`${styles.button} ${styles.cross}`}
         onClick={() => handleCrossClick()}
