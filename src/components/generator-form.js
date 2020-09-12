@@ -1,7 +1,7 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/generator-form.module.scss";
-import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
+import { ACTION_TYPES, API_REQUEST_URL, KEYS, SECTIONS } from "../constants";
 
 import formSectionStyles from "../styles/form-section.module.scss";
 
@@ -79,6 +79,12 @@ const GeneratorForm = () => {
       },
     ],
   };
+
+  const [templates, setTemplates] = useState([
+    { id: "default", name: "Szablon", attributes: [] },
+  ]);
+
+  const [currentTemplate, setCurrentTemplate] = useState("Szablon");
 
   const reducer = (state, action) => {
     switch (action.type) {
@@ -212,12 +218,35 @@ const GeneratorForm = () => {
             [KEYS.DESCRIPTION]: "",
           }),
         };
+      case ACTION_TYPES.LOAD_TEMPLATE:
+        const selectedTemplate = templates.find(
+          (template) => template.name === action.value
+        );
+
+        const templateRows = selectedTemplate.attributes.map((attribute) => ({
+          id: uuidv4(),
+          [KEYS.LABEL]: attribute,
+          [KEYS.VALUE]: "",
+          template: true,
+        }));
+
+        return {
+          ...state,
+          [SECTIONS.SPECIFICATION]: [
+            ...templateRows,
+            ...state[SECTIONS.SPECIFICATION].filter((row) => !row.template),
+          ],
+        };
       default:
         throw new Error("Invalid action type");
     }
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    getTemplatesFromAPI();
+  }, []);
 
   const handleChange = (event) => {
     const uuid = event.target.id;
@@ -271,6 +300,24 @@ const GeneratorForm = () => {
     dispatch({ type: ACTION_TYPES.ADD_DESCRIPTION });
   };
 
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+    setCurrentTemplate(value);
+    dispatch({ type: ACTION_TYPES.LOAD_TEMPLATE, value });
+  };
+
+  const getTemplatesFromAPI = async () => {
+    try {
+      const response = await fetch(`${API_REQUEST_URL}/templates`);
+      const templates = await response.json();
+      setTemplates((prevState) => [...prevState, ...templates]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const templatesNames = templates.map((template) => template.name);
+
   return (
     <form action="" className={styles.container}>
       <GeneralSection
@@ -284,6 +331,9 @@ const GeneratorForm = () => {
         handleButtonClick={handleAddInputButtonClick}
         handleCrossClick={handleCrossClick}
         handleReorder={handleReorder}
+        templatesNames={templatesNames}
+        currentTemplate={currentTemplate}
+        handleSelectChange={handleSelectChange}
       />
       <SetSection
         data={state[SECTIONS.SET]}
@@ -306,18 +356,26 @@ const GeneratorForm = () => {
         handleButtonClick={handleAddInputButtonClick}
         data={state[SECTIONS.ADDITIONAL_SECTIONS]}
       />
-      <section>
+      <section className={formSectionStyles.buttonsSection}>
         <Button
           handleClick={handleAddSectionButton}
-          className={formSectionStyles.addSectionButton}
+          className={formSectionStyles.specialButton}
         >
           Nowa sekcja
         </Button>
         <Button
           handleClick={handleAddDescriptionButton}
-          className={formSectionStyles.addSectionButton}
+          className={formSectionStyles.specialButton}
         >
           Nowy opis
+        </Button>
+      </section>
+      <section
+        className={`${formSectionStyles.buttonsSection} ${formSectionStyles.dottedBackground}`}
+      >
+        <Button className={formSectionStyles.specialButton}>Reset</Button>
+        <Button className={formSectionStyles.specialButton}>
+          Generuj opis
         </Button>
       </section>
     </form>

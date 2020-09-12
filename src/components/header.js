@@ -7,7 +7,10 @@ import Button from "./button";
 const Header = () => {
   return (
     <header className={styles.container}>
-      <img src={logo} alt="Logo IMET" />
+      <div className={styles.brand}>
+        <img src={logo} alt="Logo IMET" className={styles.logo} />
+        <h1 className={styles.heading}>Generator opisu</h1>
+      </div>
       <Button link={`#`}>Edytor szablonów</Button>
     </header>
   );

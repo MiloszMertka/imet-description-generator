@@ -3,4 +3,23 @@
 
 .select {
   @include form-element;
+
+  appearance: none;
+}
+
+.wrapper {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 2.375rem;
+    background-image: url("../assets/images/svg/select-arrow.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 12px;
+    height: 12px;
+    transform: translateY(-50%);
+  }
 }

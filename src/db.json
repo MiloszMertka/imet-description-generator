@@ -1,0 +1,14 @@
+{
+  "templates": [
+    {
+      "id": 1,
+      "name": "Wkrętarki",
+      "attributes": ["Moc", "Typ", "Moment obrotowy"]
+    },
+    {
+      "id": 2,
+      "name": "Tarcze",
+      "attributes": ["Materiał", "Rozmiar", "Typ"]
+    }
+  ]
+}

@@ -18,3 +18,10 @@
     font-weight: 500;
   }
 }
+
+@media (min-width: $tablet) {
+  .button {
+    padding: 1rem;
+    font-size: 1.125rem;
+  }
+}

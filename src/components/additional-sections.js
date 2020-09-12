@@ -23,7 +23,9 @@ const AdditionalSections = ({
 }) => {
   const sections = data.map((section) => (
     <Section key={section.id} title={section[KEYS.TITLE]}>
-      <div className={formSectionStyles.general}>
+      <div
+        className={`${formSectionStyles.general} ${formSectionStyles.titleInput}`}
+      >
         <Controls
           handleCrossClick={() =>
             handleCrossClick(SECTIONS.ADDITIONAL_SECTIONS, section.id)

@@ -8,6 +8,7 @@ export const ACTION_TYPES = {
   CHANGE_PROP: "CHANGE_PROP",
   DELETE_ROW: "DELETE_ROW",
   REORDER_ROWS: "REORDER_ROWS",
+  LOAD_TEMPLATE: "LOAD_TEMPLATE",
 };
 
 export const SECTIONS = {
@@ -27,3 +28,5 @@ export const KEYS = {
   DESCRIPTION: "description",
   ROWS: "rows",
 };
+
+export const API_REQUEST_URL = "http://localhost:3000";

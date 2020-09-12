@@ -12,6 +12,7 @@ import Section from "./section";
 import Input from "./input";
 import Button from "./button";
 import Controls from "./controls";
+import Select from "./select";
 
 const SpecificationSection = ({
   data,
@@ -19,6 +20,9 @@ const SpecificationSection = ({
   handleButtonClick,
   handleCrossClick,
   handleReorder,
+  templatesNames,
+  currentTemplate,
+  handleSelectChange,
 }) => {
   const rows = data.map((item) => (
     <div key={item.id} className={formSectionStyles.inputRow}>
@@ -44,8 +48,21 @@ const SpecificationSection = ({
     </div>
   ));
 
+  const selectOptions = templatesNames.map((templateName) => ({
+    name: templateName,
+    value: templateName,
+  }));
+
   return (
     <Section title={`Dane techniczne`}>
+      <div className={formSectionStyles.general}>
+        <Select
+          id={`templates`}
+          value={currentTemplate}
+          handleChange={handleSelectChange}
+          options={selectOptions}
+        />
+      </div>
       <ReactSortable
         list={data}
         setList={(newState) => handleReorder(SECTIONS.SPECIFICATION, newState)}
@@ -77,6 +94,9 @@ SpecificationSection.propTypes = {
   handleButtonClick: PropTypes.func.isRequired,
   handleCrossClick: PropTypes.func.isRequired,
   handleReorder: PropTypes.func.isRequired,
+  templatesNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentTemplate: PropTypes.string.isRequired,
+  handleSelectChange: PropTypes.func.isRequired,
 };
 
 export default SpecificationSection;

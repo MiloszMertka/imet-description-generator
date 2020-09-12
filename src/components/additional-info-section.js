@@ -21,7 +21,10 @@ const AdditionalInfoSection = ({
   handleReorder,
 }) => {
   const rows = data.map((item) => (
-    <div key={item.id} className={formSectionStyles.inputRow}>
+    <div
+      key={item.id}
+      className={`${formSectionStyles.inputRow} ${formSectionStyles.singleInput}`}
+    >
       <Controls
         handleCrossClick={() =>
           handleCrossClick(SECTIONS.ADDITIONAL_INFO, item.id)

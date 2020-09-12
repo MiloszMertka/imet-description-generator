@@ -24,3 +24,9 @@
     cursor: grabbing;
   }
 }
+
+@media (min-width: $desktop) {
+  .container {
+    margin-bottom: 0;
+  }
+}

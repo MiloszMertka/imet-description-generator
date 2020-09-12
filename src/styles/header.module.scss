@@ -15,3 +15,51 @@
   background-color: $white;
   z-index: 100;
 }
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 120px;
+}
+
+.heading {
+  display: none;
+  font-weight: normal;
+  margin-left: 1.25rem;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
+@media (min-width: $tablet) {
+  .container {
+    padding: {
+      left: 10vw;
+      right: 10vw;
+    }
+  }
+
+  .heading {
+    display: block;
+  }
+
+  .logo {
+    border-right: $base-border solid $black;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: $desktop) {
+  .container {
+    padding: {
+      left: 15vw;
+      right: 15vw;
+    }
+  }
+
+  .logo {
+    width: 150px;
+  }
+}

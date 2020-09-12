@@ -4,21 +4,23 @@ import styles from "../styles/select.module.scss";
 
 const Select = ({ id, value, handleChange, dataSection, dataKey, options }) => {
   return (
-    <select
-      className={styles.select}
-      id={id}
-      name={id}
-      value={value}
-      onChange={(event) => handleChange(event)}
-      data-section={dataSection}
-      data-key={dataKey}
-    >
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.name}
-        </option>
-      ))}
-    </select>
+    <div className={styles.wrapper}>
+      <select
+        className={styles.select}
+        id={id}
+        name={id}
+        value={value}
+        onChange={(event) => handleChange(event)}
+        data-section={dataSection}
+        data-key={dataKey}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.name}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 };
 

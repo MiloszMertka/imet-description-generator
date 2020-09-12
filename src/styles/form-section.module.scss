@@ -8,9 +8,22 @@
   width: $form-button-width;
 }
 
-.addSectionButton {
+.specialButton {
   margin: 1.875rem auto;
   width: $form-button-width;
+}
+
+.buttonsSection {
+  padding: {
+    top: 2rem;
+    bottom: 2rem;
+  }
+}
+
+.dottedBackground {
+  background-image: url("../assets/images/svg/dotted-background.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .general {
@@ -24,4 +37,62 @@
 .inputRow:nth-of-type(even) {
   background-color: rgba($gray, 0.2);
   margin-bottom: 1.875rem;
+}
+
+.singleInput {
+  grid-template-columns: 80px 1fr !important;
+}
+
+@media (min-width: $tablet) {
+  .general,
+  .inputRow,
+  .buttonsSection {
+    padding: {
+      left: 10vw;
+      right: 10vw;
+    }
+  }
+
+  .specialButton {
+    margin: {
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .buttonsSection {
+    display: flex;
+    justify-content: space-between;
+    padding: {
+      top: 4.375rem;
+      bottom: 4.375rem;
+    }
+  }
+}
+
+@media (min-width: $desktop) {
+  .inputRow {
+    display: grid;
+    grid-template-columns: 80px 1fr 2fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0 !important;
+  }
+
+  .titleInput {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: -1rem;
+  }
+
+  .general,
+  .inputRow,
+  .buttonsSection {
+    padding: {
+      left: 15vw;
+      right: 15vw;
+    }
+  }
 }
