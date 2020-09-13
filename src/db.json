@@ -10,5 +10,22 @@
       "name": "Tarcze",
       "attributes": ["Materiał", "Rozmiar", "Typ"]
     }
+  ],
+  "guarantees": [
+    {
+      "id": 1,
+      "name": "Milwaukee",
+      "link": "https://pl.milwaukeetool.eu/header/service/warrenty-registration/"
+    },
+    {
+      "id": 2,
+      "name": "DeWalt",
+      "link": "https://www.dewalt.pl/3/"
+    },
+    {
+      "id": 3,
+      "name": "Hitachi / Hikoki",
+      "link": "https://hikoki-narzedzia.pl/gwarancja/sprawdz-gwarancje"
+    }
   ]
 }

@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/generator-form.module.scss";
 import { ACTION_TYPES, API_REQUEST_URL, KEYS, SECTIONS } from "../constants";
@@ -7,6 +7,7 @@ import formSectionStyles from "../styles/form-section.module.scss";
 
 import GeneralSection from "./general-section";
 import SpecificationSection from "./specification-section";
+import GuaranteeSection from "./guarantee-section";
 import SetSection from "./set-section";
 import AdditionalInfoSection from "./additional-info-section";
 import AdditionalSections from "./additional-sections";
@@ -47,12 +48,8 @@ const GeneratorForm = () => {
         [KEYS.LABEL]: "EAN",
         [KEYS.VALUE]: "",
       },
-      {
-        id: uuidv4(),
-        [KEYS.LABEL]: "Gwarancja",
-        [KEYS.VALUE]: "",
-      },
     ],
+    [SECTIONS.GUARANTEE]: "",
     [SECTIONS.SET]: [
       { id: uuidv4(), [KEYS.VALUE]: "" },
       { id: uuidv4(), [KEYS.VALUE]: "Karta gwarancyjna" },
@@ -81,10 +78,14 @@ const GeneratorForm = () => {
   };
 
   const [templates, setTemplates] = useState([
-    { id: "default", name: "Szablon", attributes: [] },
+    { id: "defaultTemplate", name: "Szablon", attributes: [] },
   ]);
 
   const [currentTemplate, setCurrentTemplate] = useState("Szablon");
+
+  const [guarantees, setGuarantees] = useState([
+    { id: "defaultGuarantee", name: "Gwarancja", link: "" },
+  ]);
 
   const reducer = (state, action) => {
     switch (action.type) {
@@ -245,23 +246,32 @@ const GeneratorForm = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    getTemplatesFromAPI();
+    const fetchData = async () => {
+      const templates = await getDataFromAPI("/templates");
+      const guarantees = await getDataFromAPI("/guarantees");
+      setTemplates((prevState) => [...prevState, ...templates]);
+      setGuarantees((prevState) => [...prevState, ...guarantees]);
+    };
+    fetchData();
   }, []);
 
   const handleChange = (event) => {
     const uuid = event.target.id;
     const section = event.target.dataset.section;
+    const value = event.target.value;
 
     if (
-      [SECTIONS.NAME, SECTIONS.DESCRIPTION, SECTIONS.ATTACHMENT].includes(
-        section
-      )
+      [
+        SECTIONS.NAME,
+        SECTIONS.DESCRIPTION,
+        SECTIONS.ATTACHMENT,
+        SECTIONS.GUARANTEE,
+      ].includes(section)
     ) {
-      return dispatch({ type: ACTION_TYPES.CHANGE_PROP, uuid, section });
+      return dispatch({ type: ACTION_TYPES.CHANGE_PROP, section, value });
     }
 
     const key = event.target.dataset.key;
-    const value = event.target.value;
     dispatch({ type: ACTION_TYPES.CHANGE_VALUE, uuid, section, key, value });
   };
 
@@ -300,19 +310,23 @@ const GeneratorForm = () => {
     dispatch({ type: ACTION_TYPES.ADD_DESCRIPTION });
   };
 
-  const handleSelectChange = (event) => {
+  const handleTemplateSelectChange = (event) => {
     const value = event.target.value;
     setCurrentTemplate(value);
     dispatch({ type: ACTION_TYPES.LOAD_TEMPLATE, value });
   };
 
-  const getTemplatesFromAPI = async () => {
+  const handleGenerateButtonClick = () => {
+    // code
+  };
+
+  const getDataFromAPI = async (request) => {
     try {
-      const response = await fetch(`${API_REQUEST_URL}/templates`);
-      const templates = await response.json();
-      setTemplates((prevState) => [...prevState, ...templates]);
+      const response = await fetch(`${API_REQUEST_URL}${request}`);
+      return await response.json();
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      return null;
     }
   };
 
@@ -333,7 +347,12 @@ const GeneratorForm = () => {
         handleReorder={handleReorder}
         templatesNames={templatesNames}
         currentTemplate={currentTemplate}
-        handleSelectChange={handleSelectChange}
+        handleSelectChange={handleTemplateSelectChange}
+      />
+      <GuaranteeSection
+        currentGuarantee={state[SECTIONS.GUARANTEE]}
+        handleSelectChange={handleChange}
+        guarantees={guarantees}
       />
       <SetSection
         data={state[SECTIONS.SET]}
@@ -374,7 +393,10 @@ const GeneratorForm = () => {
         className={`${formSectionStyles.buttonsSection} ${formSectionStyles.dottedBackground}`}
       >
         <Button className={formSectionStyles.specialButton}>Reset</Button>
-        <Button className={formSectionStyles.specialButton}>
+        <Button
+          className={formSectionStyles.specialButton}
+          handleClick={handleGenerateButtonClick}
+        >
           Generuj opis
         </Button>
       </section>

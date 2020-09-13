@@ -19,6 +19,7 @@ export const SECTIONS = {
   ADDITIONAL_INFO: "additionalInfo",
   ATTACHMENT: "attachment",
   ADDITIONAL_SECTIONS: "additionalSections",
+  GUARANTEE: "guarantee",
 };
 
 export const KEYS = {
