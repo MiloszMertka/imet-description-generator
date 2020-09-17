@@ -12,6 +12,7 @@ import SetSection from "./set-section";
 import AdditionalInfoSection from "./additional-info-section";
 import AdditionalSections from "./additional-sections";
 import Button from "./button";
+import Result from "./result";
 
 const GeneratorForm = () => {
   const initialState = {
@@ -400,6 +401,7 @@ const GeneratorForm = () => {
           Generuj opis
         </Button>
       </section>
+      <Result data={state} />
     </form>
   );
 };
