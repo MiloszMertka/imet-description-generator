@@ -9,6 +9,7 @@ export const ACTION_TYPES = {
   DELETE_ROW: "DELETE_ROW",
   REORDER_ROWS: "REORDER_ROWS",
   LOAD_TEMPLATE: "LOAD_TEMPLATE",
+  RESET_STATE: "RESET_STATE",
 };
 
 export const SECTIONS = {
@@ -28,6 +29,11 @@ export const KEYS = {
   TITLE: "title",
   DESCRIPTION: "description",
   ROWS: "rows",
+};
+
+export const SORTABLE_GROUPS = {
+  LABEL_VALUE_ROWS: "LABEL_VALUE_ROWS",
+  VALUE_ROWS: "VALUE_ROWS",
 };
 
 export const API_REQUEST_URL = "http://localhost:3000";

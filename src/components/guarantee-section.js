@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 
 import { SECTIONS } from "../constants";
@@ -13,10 +13,14 @@ const GuaranteeSection = ({
   handleSelectChange,
   guarantees,
 }) => {
-  const selectOptions = guarantees.map((guarantee) => ({
-    name: guarantee.name,
-    value: guarantee.link,
-  }));
+  const selectOptions = useMemo(
+    () =>
+      guarantees.map((guarantee) => ({
+        name: guarantee.name,
+        value: guarantee.link,
+      })),
+    [guarantees]
+  );
 
   return (
     <Section title={`Gwarancja`}>

@@ -6,7 +6,7 @@ import formSectionStyles from "../styles/form-section.module.scss";
 
 import controlsStyles from "../styles/controls.module.scss"; // used to target handle for rect-sortable
 
-import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
+import { ACTION_TYPES, KEYS, SECTIONS, SORTABLE_GROUPS } from "../constants";
 
 import Button from "./button";
 import Section from "./section";
@@ -44,6 +44,7 @@ const SetSection = ({
         list={data}
         setList={(newState) => handleReorder(SECTIONS.SET, newState)}
         handle={`.${controlsStyles.draggable}`}
+        group={SORTABLE_GROUPS.VALUE_ROWS}
       >
         {rows}
       </ReactSortable>

@@ -6,7 +6,7 @@ import formSectionStyles from "../styles/form-section.module.scss";
 
 import controlsStyles from "../styles/controls.module.scss"; // used to target handle for rect-sortable
 
-import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
+import { ACTION_TYPES, KEYS, SECTIONS, SORTABLE_GROUPS } from "../constants";
 
 import Button from "./button";
 import Section from "./section";
@@ -51,6 +51,7 @@ const AdditionalSections = ({
             )
           }
           handle={`.${controlsStyles.draggable}`}
+          group={SORTABLE_GROUPS.LABEL_VALUE_ROWS}
         >
           {section[KEYS.ROWS].map((row) => (
             <div key={row.id} className={formSectionStyles.inputRow}>

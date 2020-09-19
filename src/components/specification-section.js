@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { ReactSortable } from "react-sortablejs";
 
@@ -6,7 +6,7 @@ import formSectionStyles from "../styles/form-section.module.scss";
 
 import controlsStyles from "../styles/controls.module.scss"; // used to target handle for rect-sortable
 
-import { SECTIONS, KEYS, ACTION_TYPES } from "../constants";
+import { SECTIONS, KEYS, ACTION_TYPES, SORTABLE_GROUPS } from "../constants";
 
 import Section from "./section";
 import Input from "./input";
@@ -48,10 +48,14 @@ const SpecificationSection = ({
     </div>
   ));
 
-  const selectOptions = templatesNames.map((templateName) => ({
-    name: templateName,
-    value: templateName,
-  }));
+  const selectOptions = useMemo(
+    () =>
+      templatesNames.map((templateName) => ({
+        name: templateName,
+        value: templateName,
+      })),
+    [templatesNames]
+  );
 
   return (
     <Section title={`Dane techniczne`}>
@@ -67,6 +71,7 @@ const SpecificationSection = ({
         list={data}
         setList={(newState) => handleReorder(SECTIONS.SPECIFICATION, newState)}
         handle={`.${controlsStyles.draggable}`}
+        group={SORTABLE_GROUPS.LABEL_VALUE_ROWS}
       >
         {rows}
       </ReactSortable>

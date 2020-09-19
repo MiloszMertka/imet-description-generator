@@ -1,0 +1,20 @@
+@import "variables";
+
+.result {
+  display: block;
+  padding: 0 1rem;
+}
+
+@media (min-width: $tablet) {
+  .result {
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+}
+
+@media (min-width: $desktop) {
+  .result {
+    padding-left: 15vw;
+    padding-right: 15vw;
+  }
+}
