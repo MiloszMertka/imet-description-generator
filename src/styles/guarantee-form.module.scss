@@ -1,0 +1,30 @@
+@import "variables";
+
+.container {
+  padding: #{1.875rem * 2} 1rem;
+}
+
+@media (min-width: $tablet) {
+  .container {
+    padding: {
+      left: 10vw;
+      right: 10vw;
+    }
+  }
+}
+
+@media (min-width: $desktop) {
+  .container {
+    padding: {
+      left: 15vw;
+      right: 15vw;
+    }
+  }
+
+  .inputs {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    align-items: center;
+  }
+}

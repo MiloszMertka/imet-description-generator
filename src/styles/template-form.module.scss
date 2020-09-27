@@ -1,0 +1,9 @@
+@import "variables";
+
+.container {
+  margin-top: #{$header-height + 1.875rem};
+}
+
+.submit {
+  margin-top: 1.875rem;
+}

@@ -8,6 +8,9 @@
   padding: 0.75rem;
   border: $base-border solid $black;
   display: block;
+  background-color: transparent;
+  font-family: "Barlow", sans-serif;
+  font-size: 1rem;
 
   &:hover,
   &:active,
