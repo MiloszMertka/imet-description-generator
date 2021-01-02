@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
+import { useToasts } from "react-toast-notifications";
 import styles from "../styles/guarantee-form.module.scss";
-import { getDataFromAPI } from "../utils";
+import { getDataFromAPI, postDataToAPI } from "../utils";
 
 import formSectionStyles from "../styles/form-section.module.scss";
 
@@ -9,7 +11,9 @@ import Select from "./select";
 import Input from "./input";
 import Button from "./button";
 
-const GuaranteeForm = () => {
+const GuaranteeForm = ({ isAuthenticated, token }) => {
+  const { addToast } = useToasts();
+
   const [guarantees, setGuarantees] = useState([
     { id: "newGuarantee", name: "Nowa gwarancja", link: "" },
   ]);
@@ -21,10 +25,14 @@ const GuaranteeForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       const guarantees = await getDataFromAPI("/guarantees");
-      setGuarantees((prevState) => [...prevState, ...guarantees]);
+      if (guarantees) {
+        setGuarantees((prevState) => [...prevState, ...guarantees]);
+      } else {
+        addToast("Błąd pobierania gwarancji", { appearance: "error" });
+      }
     };
     fetchData();
-  }, []);
+  }, [addToast]);
 
   const handleGuaranteeSelectChange = useCallback(
     (event) => {
@@ -50,12 +58,22 @@ const GuaranteeForm = () => {
   }, []);
 
   const handleSubmitButtonClick = useCallback(() => {
-    const data = {
-      currentGuarantee,
-      guarantee,
-    };
-    // submit
-  }, [currentGuarantee, guarantee]);
+    if (window.confirm("Czy na pewno chcesz zapisać zmiany?")) {
+      const data = {
+        currentGuarantee,
+        name: guarantee.name,
+        link: guarantee.link,
+      };
+
+      const response = postDataToAPI("/guarantees", data, token);
+
+      if (response) {
+        addToast(`Pomyślnie zapisano zmiany`, { appearance: "success" });
+      } else {
+        addToast(`Błąd dodawania gwarancji`, { appearance: "error" });
+      }
+    }
+  }, [currentGuarantee, guarantee, addToast, token]);
 
   const selectOptions = useMemo(
     () =>
@@ -98,6 +116,11 @@ const GuaranteeForm = () => {
       </Button>
     </Section>
   );
+};
+
+GuaranteeForm.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 export default GuaranteeForm;

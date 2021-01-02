@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 import styles from "../styles/login.module.scss";
+import { postDataToAPI } from "../utils";
 
 import Section from "./section";
 import Input from "./input";
 import Button from "./button";
 
-const Login = () => {
+const Login = ({ authenticate, isAuthenticated }) => {
   const [credentials, setCredentials] = useState({
-    login: "",
+    email: "",
     password: "",
   });
 
@@ -15,18 +18,22 @@ const Login = () => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value });
   };
 
-  const handleLoginButtonClick = (event) => {
+  const handleLoginButtonClick = async (event) => {
     event.preventDefault();
+    const token = await postDataToAPI("/login", credentials);
+    authenticate(token.access_token);
   };
 
-  return (
+  return isAuthenticated ? (
+    <Redirect to={{ pathname: "/edytor-szablonow" }} />
+  ) : (
     <Section className={styles.container} title={`Logowanie`}>
       <form action="" method="post">
         <Input
-          id={`login`}
-          value={credentials.login}
+          id={`email`}
+          value={credentials.email}
           handleChange={handleChange}
-          placeholder={`Login`}
+          placeholder={`E-mail`}
         />
         <Input
           id={`password`}
@@ -41,6 +48,11 @@ const Login = () => {
       </form>
     </Section>
   );
+};
+
+Login.propTypes = {
+  authenticate: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default Login;

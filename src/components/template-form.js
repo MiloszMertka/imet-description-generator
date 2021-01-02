@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
 import styles from "../styles/template-form.module.scss";
 import { v4 as uuidv4 } from "uuid";
 import { ReactSortable } from "react-sortablejs";
-import { getDataFromAPI } from "../utils";
+import { useToasts } from "react-toast-notifications";
+import { getDataFromAPI, postDataToAPI } from "../utils";
 import { SORTABLE_GROUPS } from "../constants";
 
 import formSectionStyles from "../styles/form-section.module.scss";
@@ -14,7 +16,9 @@ import Select from "./select";
 import Controls from "./controls";
 import Button from "./button";
 
-const TemplateForm = () => {
+const TemplateForm = ({ isAuthenticated, token }) => {
+  const { addToast } = useToasts();
+
   const [currentTemplate, setCurrentTemplate] = useState("Nowy szablon");
 
   const [templateName, setTemplateName] = useState("Nowy szablon");
@@ -32,10 +36,14 @@ const TemplateForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       const templates = await getDataFromAPI("/templates");
-      setTemplates((prevState) => [...prevState, ...templates]);
+      if (templates) {
+        setTemplates((prevState) => [...prevState, ...templates]);
+      } else {
+        addToast("Błąd pobierania szablonów", { appearance: "error" });
+      }
     };
     fetchData();
-  }, []);
+  }, [addToast]);
 
   const handleTemplateNameChange = useCallback((event) => {
     setTemplateName(event.target.value);
@@ -83,13 +91,22 @@ const TemplateForm = () => {
   }, []);
 
   const handleSubmitButtonClick = useCallback(() => {
-    const data = {
-      currentTemplate,
-      templateName,
-      attributes,
-    };
-    //submit
-  }, [currentTemplate, templateName, attributes]);
+    if (window.confirm("Czy na pewno chcesz zapisać zmiany?")) {
+      const data = {
+        currentTemplate,
+        templateName,
+        attributes: attributes.map((attribute) => attribute.value),
+      };
+
+      const response = postDataToAPI("/templates", data, token);
+
+      if (response) {
+        addToast(`Pomyślnie zapisano zmiany`, { appearance: "success" });
+      } else {
+        addToast(`Błąd dodawania szablonu`, { appearance: "error" });
+      }
+    }
+  }, [currentTemplate, templateName, attributes, token, addToast]);
 
   const selectOptions = useMemo(
     () =>
@@ -151,6 +168,11 @@ const TemplateForm = () => {
       </Button>
     </Section>
   );
+};
+
+TemplateForm.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 export default TemplateForm;

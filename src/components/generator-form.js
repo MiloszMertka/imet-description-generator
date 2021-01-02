@@ -7,6 +7,8 @@ import React, {
   useMemo,
 } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useToasts } from "react-toast-notifications";
+import { saveAs } from "file-saver";
 import styles from "../styles/generator-form.module.scss";
 import { ACTION_TYPES, KEYS, SECTIONS } from "../constants";
 import { getDataFromAPI } from "../utils";
@@ -246,6 +248,8 @@ const reducer = (state, action) => {
 };
 
 const GeneratorForm = () => {
+  const { addToast } = useToasts();
+
   const [templates, setTemplates] = useState([
     { id: "defaultTemplate", name: "Szablon", attributes: [] },
   ]);
@@ -262,11 +266,21 @@ const GeneratorForm = () => {
     const fetchData = async () => {
       const templates = await getDataFromAPI("/templates");
       const guarantees = await getDataFromAPI("/guarantees");
-      setTemplates((prevState) => [...prevState, ...templates]);
-      setGuarantees((prevState) => [...prevState, ...guarantees]);
+
+      if (templates) {
+        setTemplates((prevState) => [...prevState, ...templates]);
+      } else {
+        addToast("Błąd pobierania szablonów", { appearance: "error" });
+      }
+
+      if (guarantees) {
+        setGuarantees((prevState) => [...prevState, ...guarantees]);
+      } else {
+        addToast("Błąd pobierania gwarancji", { appearance: "error" });
+      }
     };
     fetchData();
-  }, []);
+  }, [addToast]);
 
   const handleChange = useCallback((event) => {
     const uuid = event.target.id;
@@ -335,20 +349,44 @@ const GeneratorForm = () => {
     [templates]
   );
 
-  const handleResetButtonClick = useCallback(() => {
-    if (window.confirm("Czy na pewno chcesz zresetować formularz?")) {
-      dispatch({ type: ACTION_TYPES.RESET_STATE });
-    }
-  }, []);
+  const handleResetButtonClick = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (window.confirm("Czy na pewno chcesz zresetować formularz?")) {
+        dispatch({ type: ACTION_TYPES.RESET_STATE });
+        addToast("Formularz został zresetowany", { appearance: "info" });
+      }
+    },
+    [addToast]
+  );
 
   const outputRef = useRef(null);
 
-  const handleCopyButtonClick = useCallback(() => {
-    if (outputRef.current !== null) {
-      window.getSelection().selectAllChildren(outputRef.current);
-      document.execCommand("copy");
-    }
-  }, []);
+  const handleCopyButtonClick = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (outputRef.current !== null) {
+        window.getSelection().selectAllChildren(outputRef.current);
+        document.execCommand("copy");
+        addToast("Opis został skopiowany do schowka", { appearance: "info" });
+      }
+    },
+    [addToast]
+  );
+
+  const handleSaveButtonClick = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (outputRef.current !== null) {
+        const blob = new Blob([outputRef.current.innerHTML], {
+          type: "text/html;charset=utf-8",
+        });
+        const filename = `${state[SECTIONS.NAME]}.html`;
+        saveAs(blob, filename);
+      }
+    },
+    [state]
+  );
 
   const templatesNames = useMemo(
     () => templates.map((template) => template.name),
@@ -420,6 +458,12 @@ const GeneratorForm = () => {
           handleClick={handleResetButtonClick}
         >
           Reset
+        </Button>
+        <Button
+          className={formSectionStyles.specialButton}
+          handleClick={handleSaveButtonClick}
+        >
+          Zapisz
         </Button>
         <Button
           className={formSectionStyles.specialButton}
