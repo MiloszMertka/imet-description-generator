@@ -36,4 +36,5 @@ export const SORTABLE_GROUPS = {
   VALUE_ROWS: "VALUE_ROWS",
 };
 
+/* for production use https://phuimet.pl/api */
 export const API_REQUEST_URL = "http://localhost:8000/api";
