@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 import styles from "../styles/login.module.scss";
 import { postDataToAPI } from "../utils";
 
@@ -9,6 +10,8 @@ import Input from "./input";
 import Button from "./button";
 
 const Login = ({ authenticate, isAuthenticated }) => {
+  const { addToast } = useToasts();
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -21,7 +24,11 @@ const Login = ({ authenticate, isAuthenticated }) => {
   const handleLoginButtonClick = async (event) => {
     event.preventDefault();
     const token = await postDataToAPI("/login", credentials);
-    authenticate(token.access_token);
+    if (!token.error) {
+      authenticate(token.access_token);
+    } else {
+      addToast("Logowanie nieudane", { appearance: "error" });
+    }
   };
 
   return isAuthenticated ? (

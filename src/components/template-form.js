@@ -86,27 +86,33 @@ const TemplateForm = ({ isAuthenticated, token }) => {
     );
   }, []);
 
-  const handleAddInputButtonClick = useCallback(() => {
+  const handleAddInputButtonClick = useCallback((event) => {
+    event.preventDefault();
     setAttributes((prevState) => [...prevState, { id: uuidv4(), value: "" }]);
   }, []);
 
-  const handleSubmitButtonClick = useCallback(() => {
-    if (window.confirm("Czy na pewno chcesz zapisać zmiany?")) {
-      const data = {
-        currentTemplate,
-        templateName,
-        attributes: attributes.map((attribute) => attribute.value),
-      };
+  const handleSubmitButtonClick = useCallback(
+    (event) => {
+      event.preventDefault();
 
-      const response = postDataToAPI("/templates", data, token);
+      if (window.confirm("Czy na pewno chcesz zapisać zmiany?")) {
+        const data = {
+          currentTemplate,
+          templateName,
+          attributes: attributes.map((attribute) => attribute.value),
+        };
 
-      if (response) {
-        addToast(`Pomyślnie zapisano zmiany`, { appearance: "success" });
-      } else {
-        addToast(`Błąd dodawania szablonu`, { appearance: "error" });
+        const response = postDataToAPI("/templates", data, token);
+
+        if (response) {
+          addToast(`Pomyślnie zapisano zmiany`, { appearance: "success" });
+        } else {
+          addToast(`Błąd dodawania szablonu`, { appearance: "error" });
+        }
       }
-    }
-  }, [currentTemplate, templateName, attributes, token, addToast]);
+    },
+    [currentTemplate, templateName, attributes, token, addToast]
+  );
 
   const selectOptions = useMemo(
     () =>
@@ -154,13 +160,13 @@ const TemplateForm = ({ isAuthenticated, token }) => {
       </ReactSortable>
       <Button
         className={formSectionStyles.button}
-        handleClick={handleAddInputButtonClick}
+        handleClick={(event) => handleAddInputButtonClick(event)}
       >
         Nowe pole
       </Button>
       <Button
         className={`${formSectionStyles.button} ${styles.submit}`}
-        handleClick={handleSubmitButtonClick}
+        handleClick={(event) => handleSubmitButtonClick(event)}
       >
         {currentTemplate === "Nowy szablon"
           ? "Utwórz szablon"

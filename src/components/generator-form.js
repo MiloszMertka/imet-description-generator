@@ -302,13 +302,17 @@ const GeneratorForm = () => {
     dispatch({ type: ACTION_TYPES.CHANGE_VALUE, uuid, section, key, value });
   }, []);
 
-  const handleAddInputButtonClick = useCallback((actionType, section, uuid) => {
-    dispatch({
-      type: actionType,
-      section,
-      uuid,
-    });
-  }, []);
+  const handleAddInputButtonClick = useCallback(
+    (actionType, section, uuid, event) => {
+      event.preventDefault();
+      dispatch({
+        type: actionType,
+        section,
+        uuid,
+      });
+    },
+    []
+  );
 
   const handleCrossClick = useCallback((section, uuid, innerRow = false) => {
     dispatch({
@@ -332,11 +336,13 @@ const GeneratorForm = () => {
     []
   );
 
-  const handleAddSectionButton = useCallback(() => {
+  const handleAddSectionButton = useCallback((event) => {
+    event.preventDefault();
     dispatch({ type: ACTION_TYPES.ADD_SECTION });
   }, []);
 
-  const handleAddDescriptionButton = useCallback(() => {
+  const handleAddDescriptionButton = useCallback((event) => {
+    event.preventDefault();
     dispatch({ type: ACTION_TYPES.ADD_DESCRIPTION });
   }, []);
 
@@ -438,13 +444,13 @@ const GeneratorForm = () => {
       />
       <section className={formSectionStyles.buttonsSection}>
         <Button
-          handleClick={handleAddSectionButton}
+          handleClick={(event) => handleAddSectionButton(event)}
           className={formSectionStyles.specialButton}
         >
           Nowa sekcja
         </Button>
         <Button
-          handleClick={handleAddDescriptionButton}
+          handleClick={(event) => handleAddDescriptionButton(event)}
           className={formSectionStyles.specialButton}
         >
           Nowy opis

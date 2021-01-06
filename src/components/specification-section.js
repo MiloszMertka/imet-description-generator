@@ -76,8 +76,13 @@ const SpecificationSection = ({
         {rows}
       </ReactSortable>
       <Button
-        handleClick={() =>
-          handleButtonClick(ACTION_TYPES.ADD_ROW, SECTIONS.SPECIFICATION)
+        handleClick={(event) =>
+          handleButtonClick(
+            ACTION_TYPES.ADD_ROW,
+            SECTIONS.SPECIFICATION,
+            undefined,
+            event
+          )
         }
         className={formSectionStyles.button}
       >

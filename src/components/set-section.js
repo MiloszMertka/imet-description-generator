@@ -49,8 +49,13 @@ const SetSection = ({
         {rows}
       </ReactSortable>
       <Button
-        handleClick={() =>
-          handleButtonClick(ACTION_TYPES.ADD_INPUT, SECTIONS.SET)
+        handleClick={(event) =>
+          handleButtonClick(
+            ACTION_TYPES.ADD_INPUT,
+            SECTIONS.SET,
+            undefined,
+            event
+          )
         }
         className={formSectionStyles.button}
       >

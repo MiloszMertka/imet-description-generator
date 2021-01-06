@@ -90,11 +90,12 @@ const AdditionalSections = ({
       )}
       {section.hasOwnProperty(KEYS.ROWS) && (
         <Button
-          handleClick={() =>
+          handleClick={(event) =>
             handleButtonClick(
               ACTION_TYPES.ADD_ROW,
               SECTIONS.ADDITIONAL_SECTIONS,
-              section.id
+              section.id,
+              event
             )
           }
           className={formSectionStyles.button}

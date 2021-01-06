@@ -53,8 +53,13 @@ const AdditionalInfoSection = ({
         {rows}
       </ReactSortable>
       <Button
-        handleClick={() =>
-          handleButtonClick(ACTION_TYPES.ADD_INPUT, SECTIONS.ADDITIONAL_INFO)
+        handleClick={(event) =>
+          handleButtonClick(
+            ACTION_TYPES.ADD_INPUT,
+            SECTIONS.ADDITIONAL_INFO,
+            undefined,
+            event
+          )
         }
         className={formSectionStyles.button}
       >

@@ -57,23 +57,28 @@ const GuaranteeForm = ({ isAuthenticated, token }) => {
     }
   }, []);
 
-  const handleSubmitButtonClick = useCallback(() => {
-    if (window.confirm("Czy na pewno chcesz zapisać zmiany?")) {
-      const data = {
-        currentGuarantee,
-        name: guarantee.name,
-        link: guarantee.link,
-      };
+  const handleSubmitButtonClick = useCallback(
+    (event) => {
+      event.preventDefault();
 
-      const response = postDataToAPI("/guarantees", data, token);
+      if (window.confirm("Czy na pewno chcesz zapisać zmiany?")) {
+        const data = {
+          currentGuarantee,
+          name: guarantee.name,
+          link: guarantee.link,
+        };
 
-      if (response) {
-        addToast(`Pomyślnie zapisano zmiany`, { appearance: "success" });
-      } else {
-        addToast(`Błąd dodawania gwarancji`, { appearance: "error" });
+        const response = postDataToAPI("/guarantees", data, token);
+
+        if (response) {
+          addToast(`Pomyślnie zapisano zmiany`, { appearance: "success" });
+        } else {
+          addToast(`Błąd dodawania gwarancji`, { appearance: "error" });
+        }
       }
-    }
-  }, [currentGuarantee, guarantee, addToast, token]);
+    },
+    [currentGuarantee, guarantee, addToast, token]
+  );
 
   const selectOptions = useMemo(
     () =>
@@ -108,7 +113,7 @@ const GuaranteeForm = ({ isAuthenticated, token }) => {
       </div>
       <Button
         className={formSectionStyles.button}
-        handleClick={handleSubmitButtonClick}
+        handleClick={(event) => handleSubmitButtonClick(event)}
       >
         {currentGuarantee === "Nowa gwarancja"
           ? "Utwórz gwarancję"
