@@ -22,22 +22,18 @@ const Result = ({ data, outputRef }) => {
     [dataDescription]
   );
 
-  const specification = useMemo(
-    () =>
-      dataSpecification.map((row) => {
-        const label = row[KEYS.LABEL].trim();
-        const value = row[KEYS.VALUE].trim();
-        return label && value ? (
-          <tr key={row.id}>
-            <td className="desc-td2">
-              {label.endsWith(":") ? label : `${label}:`}
-            </td>
-            <td className="desc-td1">{value}</td>
-          </tr>
-        ) : null;
-      }),
-    [dataSpecification]
-  );
+  const specification = dataSpecification.map((row) => {
+    const label = row[KEYS.LABEL].trim();
+    const value = row[KEYS.VALUE].trim();
+    return label && value ? (
+      <tr key={row.id}>
+        <td className="desc-td2">
+          {label.endsWith(":") ? label : `${label}:`}
+        </td>
+        <td className="desc-td1">{value}</td>
+      </tr>
+    ) : null;
+  });
 
   const guarantee = useMemo(
     () =>
@@ -58,98 +54,82 @@ const Result = ({ data, outputRef }) => {
     [dataGuarantee]
   );
 
-  const additionalInfo = useMemo(
-    () =>
-      dataAdditionalInfo.map((row) => {
-        const value = row[KEYS.VALUE].trim();
-        return value && <li key={row.id}>{value}</li>;
-      }),
-    [dataAdditionalInfo]
-  );
+  const additionalInfo = dataAdditionalInfo.map((row) => {
+    const value = row[KEYS.VALUE].trim();
+    return value && <li key={row.id}>{value}</li>;
+  });
 
-  const set = useMemo(
-    () =>
-      dataSet.map((row) => {
-        const value = row[KEYS.VALUE].trim();
-        return value && <li key={row.id}>{value}</li>;
-      }),
-    [dataSet]
-  );
+  const set = dataSet.map((row) => {
+    const value = row[KEYS.VALUE].trim();
+    return value && <li key={row.id}>{value}</li>;
+  });
 
-  const additionalSections = useMemo(
-    () =>
-      dataAdditionalSections.map((section) =>
-        section.hasOwnProperty(KEYS.DESCRIPTION)
-          ? section[KEYS.DESCRIPTION] &&
-            section[KEYS.TITLE] && (
-              <React.Fragment key={section.id}>
-                <p></p>
-                <p></p>
-                <table className="table-style1">
-                  <tbody>
-                    <tr>
-                      <th className="th-style1">
-                        {section[KEYS.TITLE].trim()}
-                      </th>
+  const additionalSections = dataAdditionalSections.map((section) =>
+    section.hasOwnProperty(KEYS.DESCRIPTION)
+      ? section[KEYS.DESCRIPTION] &&
+        section[KEYS.TITLE] && (
+          <React.Fragment key={section.id}>
+            <p></p>
+            <p></p>
+            <table className="table-style1">
+              <tbody>
+                <tr>
+                  <th className="th-style1">{section[KEYS.TITLE].trim()}</th>
+                </tr>
+              </tbody>
+            </table>
+            <table className="table-style3">
+              <tbody>
+                <tr>
+                  <td
+                    className="desc-td3"
+                    dangerouslySetInnerHTML={{
+                      __html: section[KEYS.DESCRIPTION]
+                        .split("\n")
+                        .join("<br />")
+                        .trim(),
+                    }}
+                  ></td>
+                </tr>
+              </tbody>
+            </table>
+            <p></p>
+          </React.Fragment>
+        )
+      : section[KEYS.ROWS].length > 0 &&
+        section[KEYS.TITLE] && (
+          <React.Fragment key={section.id}>
+            <p></p>
+            <p></p>
+            <table className="table-style1">
+              <tbody>
+                <tr>
+                  <th className="th-style1">{section[KEYS.TITLE].trim()}</th>
+                </tr>
+              </tbody>
+            </table>
+            <table className="table-style3">
+              <tbody>
+                <tr>
+                  <td className="desc-td3"></td>
+                </tr>
+                {section[KEYS.ROWS].map((row) => {
+                  const label = row[KEYS.LABEL].trim();
+                  const value = row[KEYS.VALUE].trim();
+                  return label && value ? (
+                    <tr key={row.id}>
+                      <td className="desc-td2">
+                        {label.endsWith(":") ? label : `${label}:`}
+                      </td>
+                      <td className="desc-td1">{value}</td>
                     </tr>
-                  </tbody>
-                </table>
-                <table className="table-style3">
-                  <tbody>
-                    <tr>
-                      <td
-                        className="desc-td3"
-                        dangerouslySetInnerHTML={{
-                          __html: section[KEYS.DESCRIPTION]
-                            .split("\n")
-                            .join("<br />")
-                            .trim(),
-                        }}
-                      ></td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p></p>
-              </React.Fragment>
-            )
-          : section[KEYS.ROWS].length > 0 &&
-            section[KEYS.TITLE] && (
-              <React.Fragment key={section.id}>
-                <p></p>
-                <p></p>
-                <table className="table-style1">
-                  <tbody>
-                    <tr>
-                      <th className="th-style1">
-                        {section[KEYS.TITLE].trim()}
-                      </th>
-                    </tr>
-                  </tbody>
-                </table>
-                <table className="table-style3">
-                  <tbody>
-                    <tr>
-                      <td className="desc-td3"></td>
-                    </tr>
-                    {section[KEYS.ROWS].map((row) => {
-                      const label = row[KEYS.LABEL].trim();
-                      const value = row[KEYS.VALUE].trim();
-                      return label && value ? (
-                        <tr key={row.id}>
-                          <td className="desc-td2">
-                            {label.endsWith(":") ? label : `${label}:`}
-                          </td>
-                          <td className="desc-td1">{value}</td>
-                        </tr>
-                      ) : null;
-                    })}
-                  </tbody>
-                </table>
-                <p></p>
-              </React.Fragment>
-            )
-      ),
-    [dataAdditionalSections]
+                  ) : null;
+                })}
+              </tbody>
+            </table>
+            <p></p>
+          </React.Fragment>
+        )
   );
 
   return (
