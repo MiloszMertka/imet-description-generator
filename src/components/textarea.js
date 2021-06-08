@@ -30,8 +30,8 @@ const Textarea = ({
 
 Textarea.propTypes = {
   id: PropTypes.string.isRequired,
-  cols: PropTypes.string,
-  rows: PropTypes.string,
+  cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
@@ -40,8 +40,8 @@ Textarea.propTypes = {
 };
 
 Textarea.defaultProps = {
-  cols: "30",
-  rows: "10",
+  cols: 30,
+  rows: 10,
 };
 
 export default Textarea;

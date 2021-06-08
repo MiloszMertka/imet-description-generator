@@ -11,7 +11,7 @@ import { ACTION_TYPES, KEYS, SECTIONS, SORTABLE_GROUPS } from "../constants";
 import Button from "./button";
 import Section from "./section";
 import Controls from "./controls";
-import Input from "./input";
+import Textarea from "./textarea";
 
 const AdditionalInfoSection = ({
   data,
@@ -30,12 +30,13 @@ const AdditionalInfoSection = ({
           handleCrossClick(SECTIONS.ADDITIONAL_INFO, item.id)
         }
       />
-      <Input
+      <Textarea
         handleChange={(event) => handleChange(event)}
         id={item.id}
         value={item.value}
         dataSection={SECTIONS.ADDITIONAL_INFO}
         dataKey={KEYS.VALUE}
+        rows={2}
       />
     </div>
   ));

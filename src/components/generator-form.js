@@ -37,33 +37,38 @@ const initialState = {
       id: uuidv4(),
       [KEYS.LABEL]: "Kod producenta",
       [KEYS.VALUE]: "",
+      isInitial: true,
     },
     {
       id: uuidv4(),
       [KEYS.LABEL]: "Wyposażenie",
       [KEYS.VALUE]: "",
+      isInitial: true,
     },
     {
       id: uuidv4(),
       [KEYS.LABEL]: "Opakowanie",
       [KEYS.VALUE]: "",
+      isInitial: true,
     },
     {
       id: uuidv4(),
       [KEYS.LABEL]: "Producent",
       [KEYS.VALUE]: "",
+      isInitial: true,
     },
     {
       id: uuidv4(),
       [KEYS.LABEL]: "EAN",
       [KEYS.VALUE]: "",
+      isInitial: true,
     },
   ],
   [SECTIONS.GUARANTEE]: "",
   [SECTIONS.SET]: [
     { id: uuidv4(), [KEYS.VALUE]: "" },
-    { id: uuidv4(), [KEYS.VALUE]: "Karta gwarancyjna" },
-    { id: uuidv4(), [KEYS.VALUE]: "Dowód zakupu" },
+    { id: uuidv4(), [KEYS.VALUE]: "Karta gwarancyjna", isInitial: true },
+    { id: uuidv4(), [KEYS.VALUE]: "Dowód zakupu", isInitial: true },
   ],
   [SECTIONS.ADDITIONAL_INFO]: [{ id: uuidv4(), [KEYS.VALUE]: "" }],
   [SECTIONS.ATTACHMENT]: "",
@@ -138,21 +143,40 @@ const reducer = (state, action) => {
           ),
         };
       }
+
+      const filteredSection = state[action.section].filter(
+        (row) => !row.isInitial
+      );
+      const initials = state[action.section].filter((row) => row.isInitial);
+
       return {
         ...state,
-        [action.section]: state[action.section].concat({
-          id: uuidv4(),
-          [KEYS.LABEL]: "",
-          [KEYS.VALUE]: "",
-        }),
+        [action.section]: filteredSection.concat(
+          {
+            id: uuidv4(),
+            [KEYS.LABEL]: "",
+            [KEYS.VALUE]: "",
+          },
+          initials
+        ),
       };
     case ACTION_TYPES.ADD_INPUT:
+      const filteredInputs = state[action.section].filter(
+        (input) => !input.isInitial
+      );
+      const initialInputs = state[action.section].filter(
+        (input) => input.isInitial
+      );
+
       return {
         ...state,
-        [action.section]: state[action.section].concat({
-          id: uuidv4(),
-          [KEYS.VALUE]: "",
-        }),
+        [action.section]: filteredInputs.concat(
+          {
+            id: uuidv4(),
+            [KEYS.VALUE]: "",
+          },
+          initialInputs
+        ),
       };
     case ACTION_TYPES.DELETE_ROW:
       if (action.innerRow) {

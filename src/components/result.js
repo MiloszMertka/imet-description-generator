@@ -64,10 +64,25 @@ const Result = ({ data, outputRef }) => {
     return value && <li key={row.id}>{value}</li>;
   });
 
-  const additionalSections = dataAdditionalSections.map((section) =>
-    section.hasOwnProperty(KEYS.DESCRIPTION)
-      ? section[KEYS.DESCRIPTION] &&
-        section[KEYS.TITLE] && (
+  const additionalSections = dataAdditionalSections.map((section) => {
+    let isEmpty = false;
+    if (section.hasOwnProperty(KEYS.ROWS)) {
+      isEmpty = true;
+      section[KEYS.ROWS].forEach((row) => {
+        row[KEYS.LABEL].trim();
+        row[KEYS.VALUE].trim();
+        if (row[KEYS.LABEL] !== "" || row[KEYS.VALUE] !== "") {
+          isEmpty = false;
+        }
+      });
+    }
+
+    if (isEmpty) {
+      return "";
+    }
+
+    return section.hasOwnProperty(KEYS.DESCRIPTION)
+      ? section[KEYS.DESCRIPTION] && section[KEYS.TITLE] && (
           <React.Fragment key={section.id}>
             <p></p>
             <p></p>
@@ -96,8 +111,7 @@ const Result = ({ data, outputRef }) => {
             <p></p>
           </React.Fragment>
         )
-      : section[KEYS.ROWS].length > 0 &&
-        section[KEYS.TITLE] && (
+      : section[KEYS.ROWS].length > 0 && section[KEYS.TITLE] && (
           <React.Fragment key={section.id}>
             <p></p>
             <p></p>
@@ -129,8 +143,8 @@ const Result = ({ data, outputRef }) => {
             </table>
             <p></p>
           </React.Fragment>
-        )
-  );
+        );
+  });
 
   return (
     <Section title={`Wygenerowany opis`}>
