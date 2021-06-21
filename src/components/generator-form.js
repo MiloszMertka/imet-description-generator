@@ -264,8 +264,6 @@ const reducer = (state, action) => {
           ...state[SECTIONS.SPECIFICATION].filter((row) => !row.template),
         ],
       };
-    case ACTION_TYPES.RESET_STATE:
-      return init(initialState);
     default:
       throw new Error("Invalid action type");
   }
@@ -379,16 +377,12 @@ const GeneratorForm = () => {
     [templates]
   );
 
-  const handleResetButtonClick = useCallback(
-    (event) => {
-      event.preventDefault();
-      if (window.confirm("Czy na pewno chcesz zresetować formularz?")) {
-        dispatch({ type: ACTION_TYPES.RESET_STATE });
-        addToast("Formularz został zresetowany", { appearance: "info" });
-      }
-    },
-    [addToast]
-  );
+  const handleResetButtonClick = useCallback((event) => {
+    event.preventDefault();
+    if (window.confirm("Czy na pewno chcesz zresetować formularz?")) {
+      window.location.reload();
+    }
+  }, []);
 
   const outputRef = useRef(null);
 
