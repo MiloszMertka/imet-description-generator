@@ -68,7 +68,6 @@ const initialState = {
   [SECTIONS.SET]: [
     { id: uuidv4(), [KEYS.VALUE]: "" },
     { id: uuidv4(), [KEYS.VALUE]: "Karta gwarancyjna", isInitial: true },
-    { id: uuidv4(), [KEYS.VALUE]: "Dowód zakupu", isInitial: true },
   ],
   [SECTIONS.ADDITIONAL_INFO]: [{ id: uuidv4(), [KEYS.VALUE]: "" }],
   [SECTIONS.ATTACHMENT]: "",
