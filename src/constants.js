@@ -35,5 +35,5 @@ export const SORTABLE_GROUPS = {
   VALUE_ROWS: "VALUE_ROWS",
 };
 
-/* for production use https://phuimet.pl/api and for development http://localhost:8000/api */
-export const API_REQUEST_URL = "http://localhost:8000/api";
+/* for production use https://imet.pl/api and for development http://localhost:8000/api */
+export const API_REQUEST_URL = "https://imet.pl/api";
