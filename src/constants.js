@@ -35,5 +35,9 @@ export const SORTABLE_GROUPS = {
   VALUE_ROWS: "VALUE_ROWS",
 };
 
+export const OPENAI_API_KEY = "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";
+export const OPENAI_ORGANIZATION = "org-ZrnE2wpHfJ98jaUZRIFgtre4";
+export const OPENAI_MODEL = "gpt-3.5-turbo";
+
 /* for production use https://imet.pl/api and for development http://localhost:8000/api */
 export const API_REQUEST_URL = "https://imet.pl/api";
