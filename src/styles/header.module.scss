@@ -35,6 +35,26 @@
   font-size: 1.5rem;
 }
 
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.generateButton {
+  position: relative;
+
+  &[disabled] {
+    color: transparent;
+  }
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @media (min-width: $tablet) {
   .container {
     padding: {

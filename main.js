@@ -1,29 +1,30 @@
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
+const { generateDescription } = require("./gpt");
 
 const main = () => {
-  handleStartupEvents();
-  disableNativeMenu();
+  handleInstallerStartupEvents();
+  registerIpcEventListeners();
   app.whenReady().then(createWindow);
   app.on("window-all-closed", quitApp);
   app.on("activate", activateApp);
 };
 
-const handleStartupEvents = () => {
+const handleInstallerStartupEvents = () => {
   if (require("electron-squirrel-startup")) {
     app.quit();
   }
 };
 
-const disableNativeMenu = () => {
-  Menu.setApplicationMenu(null);
+const registerIpcEventListeners = () => {
+  ipcMain.handle("generateDescription", async (_, productName, specification) => await generateDescription(productName, specification));
 };
 
 const createWindow = () => {
   const window = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 1600,
+    height: 900,
     webPreferences: {
       sandbox: true,
       preload: path.join(__dirname, "preload.js"),

@@ -33,7 +33,7 @@ function App() {
   return (
     <ToastProvider autoDismiss={true}>
       <Router>
-        <Header />
+        <Header state={state} dispatch={dispatch} />
         <main>
           <Switch>
             <Route exact path={`/`}>
