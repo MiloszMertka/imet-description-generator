@@ -1,8 +1,9 @@
 @import "variables";
 @import "form-element";
 
-.textarea {
+.editor {
   @include form-element;
-  resize: vertical;
   margin-top: 1rem;
+  border: none;
+  padding: 0;
 }

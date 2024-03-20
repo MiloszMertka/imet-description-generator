@@ -12,7 +12,7 @@ import Button from "./button";
 import Section from "./section";
 import Controls from "./controls";
 import Input from "./input";
-import Textarea from "./textarea";
+import RichTextEditor from "./rich-text-editor";
 
 const AdditionalSections = ({
   data,
@@ -79,8 +79,8 @@ const AdditionalSections = ({
         </ReactSortable>
       ) : (
         <div className={formSectionStyles.general}>
-          <Textarea
-            handleChange={(event) => handleChange(event)}
+          <RichTextEditor
+            handleChange={handleChange}
             value={section[KEYS.DESCRIPTION]}
             id={`${section.id}_description`}
             dataSection={SECTIONS.ADDITIONAL_SECTIONS}

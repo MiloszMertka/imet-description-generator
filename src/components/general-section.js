@@ -6,7 +6,7 @@ import formSection from "../styles/form-section.module.scss";
 
 import Section from "./section";
 import Input from "./input";
-import Textarea from "./textarea";
+import RichTextEditor from "./rich-text-editor";
 
 const GeneralSection = ({ handleChange, name, description }) => {
   return (
@@ -19,11 +19,10 @@ const GeneralSection = ({ handleChange, name, description }) => {
           placeholder={`Nazwa urządzenia`}
           dataSection={SECTIONS.NAME}
         />
-        <Textarea
+        <RichTextEditor
           handleChange={handleChange}
           id={SECTIONS.DESCRIPTION}
           value={description}
-          placeholder={`Opis urządzenia`}
           dataSection={SECTIONS.DESCRIPTION}
         />
       </div>
