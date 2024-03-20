@@ -27,11 +27,11 @@
 }
 
 .general {
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
 
 .inputRow {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .inputRow:nth-of-type(even) {
@@ -64,8 +64,8 @@
     display: flex;
     justify-content: space-between;
     padding: {
-      top: 4.375rem;
-      bottom: 4.375rem;
+      top: 2rem;
+      bottom: 2rem;
     }
   }
 }
@@ -97,6 +97,6 @@
   }
 
   .button {
-    margin-top: 1.875rem;
+    margin-top: 1rem;
   }
 }

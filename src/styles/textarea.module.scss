@@ -4,4 +4,5 @@
 .textarea {
   @include form-element;
   resize: vertical;
+  margin-top: 1rem;
 }

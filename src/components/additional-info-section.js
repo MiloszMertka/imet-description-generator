@@ -42,7 +42,7 @@ const AdditionalInfoSection = ({
   ));
 
   return (
-    <Section title={`Dodatkowe informacje`}>
+    <Section title={`Cechy produktu`}>
       <ReactSortable
         list={data}
         setList={(newState) =>

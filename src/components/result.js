@@ -35,6 +35,20 @@ const Result = ({ data, outputRef }) => {
     ) : null;
   });
 
+  const getManufacturer = () => {
+    const manufacturer = dataSpecification.find(
+      (row) => row[KEYS.LABEL].trim() === "Producent"
+    );
+    return manufacturer ? manufacturer[KEYS.VALUE].trim() : "";
+  };
+
+  const getModel = () => {
+    const model = dataSpecification.find(
+      (row) => row[KEYS.LABEL].trim() === "Kod producenta"
+    );
+    return model ? model[KEYS.VALUE].trim() : "";
+  };
+
   const guarantee = useMemo(
     () =>
       dataGuarantee ? (
@@ -180,7 +194,9 @@ const Result = ({ data, outputRef }) => {
             <table className="table-style1">
               <tbody>
                 <tr>
-                  <th className="th-style1">Dane techniczne:</th>
+                  <th className="th-style1">
+                    Dane techniczne {getManufacturer()} {getModel()}:
+                  </th>
                 </tr>
               </tbody>
             </table>
@@ -200,7 +216,9 @@ const Result = ({ data, outputRef }) => {
             <table className="table-style1">
               <tbody>
                 <tr>
-                  <th className="th-style1">Dodatkowe informacje:</th>
+                  <th className="th-style1">
+                    Cechy produktu {getManufacturer()} {getModel()}:
+                  </th>
                 </tr>
               </tbody>
             </table>
