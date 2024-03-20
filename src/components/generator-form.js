@@ -383,15 +383,32 @@ const GeneratorForm = () => {
     }
   }, []);
 
-  const outputRef = useRef(null);
+  const subiektOutputRef = useRef(null);
+  const nsOutputRef = useRef(null);
 
-  const handleCopyButtonClick = useCallback(
+  const handleSubiektCopyButtonClick = useCallback(
     (event) => {
       event.preventDefault();
-      if (outputRef.current !== null) {
-        window.getSelection().selectAllChildren(outputRef.current);
+      if (subiektOutputRef.current !== null) {
+        window.getSelection().selectAllChildren(subiektOutputRef.current);
         document.execCommand("copy");
-        addToast("Opis został skopiowany do schowka", { appearance: "info" });
+        addToast("Opis Subiekt został skopiowany do schowka", {
+          appearance: "info",
+        });
+      }
+    },
+    [addToast]
+  );
+
+  const handleNsCopyButtonClick = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (nsOutputRef.current !== null) {
+        window.getSelection().selectAllChildren(nsOutputRef.current);
+        document.execCommand("copy");
+        addToast("Opis Narzędziownia został skopiowany do schowka", {
+          appearance: "info",
+        });
       }
     },
     [addToast]
@@ -400,8 +417,8 @@ const GeneratorForm = () => {
   const handleSaveButtonClick = useCallback(
     (event) => {
       event.preventDefault();
-      if (outputRef.current !== null) {
-        const blob = new Blob([outputRef.current.innerHTML], {
+      if (subiektOutputRef.current !== null) {
+        const blob = new Blob([subiektOutputRef.current.innerHTML], {
           type: "text/html;charset=utf-8",
         });
         const filename = `${state[SECTIONS.NAME]}.html`;
@@ -490,12 +507,22 @@ const GeneratorForm = () => {
         </Button>
         <Button
           className={formSectionStyles.specialButton}
-          handleClick={handleCopyButtonClick}
+          handleClick={handleSubiektCopyButtonClick}
         >
-          Kopiuj opis
+          Kopiuj Subiekt
+        </Button>
+        <Button
+          className={formSectionStyles.specialButton}
+          handleClick={handleNsCopyButtonClick}
+        >
+          Kopiuj Narzędziownia
         </Button>
       </section>
-      <Result data={state} outputRef={outputRef} />
+      <Result
+        data={state}
+        subiektOutputRef={subiektOutputRef}
+        nsOutputRef={nsOutputRef}
+      />
     </form>
   );
 };

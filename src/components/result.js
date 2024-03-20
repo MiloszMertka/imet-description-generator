@@ -5,8 +5,13 @@ import styles from "../styles/result.module.scss";
 import { KEYS, SECTIONS } from "../constants";
 
 import Section from "./section";
+import NameResult from "./name-result";
+import CharacteristicsResult from "./characteristics-result";
+import SpecificationResult from "./specification-result";
+import AdditionalInfoResult from "./additional-info-result";
+import SetResult from "./set-result";
 
-const Result = ({ data, outputRef }) => {
+const Result = ({ data, subiektOutputRef, nsOutputRef }) => {
   const dataName = data[SECTIONS.NAME];
   const dataDescription = data[SECTIONS.DESCRIPTION];
   const dataSpecification = data[SECTIONS.SPECIFICATION];
@@ -162,103 +167,54 @@ const Result = ({ data, outputRef }) => {
 
   return (
     <Section title={`Wygenerowany opis`}>
-      <output ref={outputRef} className={styles.result}>
-        <p>
-          <b className="dsc-nazwa">{name}</b>
-        </p>
-        <p></p>
-        <p></p>
-        <table className="table-style1">
-          <tbody>
-            <tr>
-              <th className="th-style1">Charakterystyka:</th>
-            </tr>
-          </tbody>
-        </table>
-        <table className="table-style3">
-          <tbody>
-            <tr>
-              <td
-                className="desc-td3"
-                dangerouslySetInnerHTML={{
-                  __html: description,
-                }}
-              ></td>
-            </tr>
-          </tbody>
-        </table>
-        <p></p>
-        <p></p>
-        {dataSpecification.length > 0 && (
-          <>
-            <table className="table-style1">
-              <tbody>
-                <tr>
-                  <th className="th-style1">
-                    Dane techniczne {getManufacturer()} {getModel()}:
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table-style2">
-              <tbody>
-                {specification}
-                {guarantee}
-              </tbody>
-            </table>
-            <p></p>
-          </>
-        )}
-        {dataAdditionalInfo.length > 0 && (
-          <>
-            <p></p>
-            <p></p>
-            <table className="table-style1">
-              <tbody>
-                <tr>
-                  <th className="th-style1">
-                    Cechy produktu {getManufacturer()} {getModel()}:
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table-style3">
-              <tbody>
-                <tr>
-                  <td>
-                    <ul>{additionalInfo}</ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <p></p>
-          </>
-        )}
-        {dataSet.length > 0 && (
-          <>
-            <p></p>
-            <p></p>
-            <table className="table-style1">
-              <tbody>
-                <tr>
-                  <th className="th-style1">Zawartość zestawu:</th>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table-style3">
-              <tbody>
-                <tr>
-                  <td>
-                    <ul>{set}</ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <p></p>
-          </>
-        )}
-        {additionalSections}
-      </output>
+      <div className={styles.container}>
+        <div className={styles.result}>
+          <h3 className={styles.heading}>Opis Subiekt</h3>
+          <output ref={subiektOutputRef}>
+            <NameResult name={name} />
+            <CharacteristicsResult characteristics={description} />
+            {dataSpecification.length > 0 && (
+              <SpecificationResult
+                specification={specification}
+                guarantee={guarantee}
+                model={getModel()}
+                manufacturer={getManufacturer()}
+              />
+            )}
+            {dataAdditionalInfo.length > 0 && (
+              <AdditionalInfoResult
+                additionalInfo={additionalInfo}
+                model={getModel()}
+                manufacturer={getManufacturer()}
+              />
+            )}
+            {dataSet.length > 0 && <SetResult set={set} />}
+          </output>
+        </div>
+        <div className={styles.result}>
+          <h3 className={styles.heading}>Opis Narzędziownia</h3>
+          <output ref={nsOutputRef}>
+            <NameResult name={name} />
+            {additionalSections}
+            {dataSpecification.length > 0 && (
+              <SpecificationResult
+                specification={specification}
+                guarantee={guarantee}
+                model={getModel()}
+                manufacturer={getManufacturer()}
+              />
+            )}
+            {dataAdditionalInfo.length > 0 && (
+              <AdditionalInfoResult
+                additionalInfo={additionalInfo}
+                model={getModel()}
+                manufacturer={getManufacturer()}
+              />
+            )}
+            {dataSet.length > 0 && <SetResult set={set} />}
+          </output>
+        </div>
+      </div>
     </Section>
   );
 };

@@ -1,5 +1,16 @@
 @import "variables";
 
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+.heading {
+  text-transform: uppercase;
+}
+
 .result {
   display: block;
   padding: 0 1rem;
