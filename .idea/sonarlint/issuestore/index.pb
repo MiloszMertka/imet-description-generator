@@ -44,8 +44,6 @@ L
 src/components/set-result.js,a/3/a3b27c52e8a41d68b0fed4f4749358ededf45da7
 M
 src/styles/result.module.scss,7/2/72478a210503baf85fcfe046c9afd82214c32685
-J
-src/components/textarea.js,d/3/d3ec247430f49fe6dd2e5688bbcdcd29acb6f4b2
 R
 "src/components/rich-text-editor.js,a/f/af031172b19a399b5cdbc9c71a4a14ca304193e7
 Q

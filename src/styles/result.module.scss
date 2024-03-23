@@ -16,6 +16,10 @@
   padding: 0 1rem;
 }
 
+.hidden {
+  display: none;
+}
+
 @media (min-width: $tablet) {
   .result {
     padding-left: 10vw;

@@ -385,6 +385,7 @@ const GeneratorForm = () => {
 
   const subiektOutputRef = useRef(null);
   const nsOutputRef = useRef(null);
+  const wholeDescriptionOutputRef = useRef(null);
 
   const handleSubiektCopyButtonClick = useCallback(
     (event) => {
@@ -418,7 +419,7 @@ const GeneratorForm = () => {
     (event) => {
       event.preventDefault();
       if (subiektOutputRef.current !== null) {
-        const blob = new Blob([subiektOutputRef.current.innerHTML], {
+        const blob = new Blob([wholeDescriptionOutputRef.current.innerHTML], {
           type: "text/html;charset=utf-8",
         });
         const filename = `${state[SECTIONS.NAME]}.html`;
@@ -522,6 +523,7 @@ const GeneratorForm = () => {
         data={state}
         subiektOutputRef={subiektOutputRef}
         nsOutputRef={nsOutputRef}
+        wholeDescriptionOutputRef={wholeDescriptionOutputRef}
       />
     </form>
   );

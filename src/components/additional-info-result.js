@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 const AdditionalInfoResult = ({ additionalInfo, manufacturer, model }) => {
+  console.log(additionalInfo);
   return (
     <>
       <p></p>

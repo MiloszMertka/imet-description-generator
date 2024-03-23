@@ -11,7 +11,12 @@ import SpecificationResult from "./specification-result";
 import AdditionalInfoResult from "./additional-info-result";
 import SetResult from "./set-result";
 
-const Result = ({ data, subiektOutputRef, nsOutputRef }) => {
+const Result = ({
+  data,
+  subiektOutputRef,
+  nsOutputRef,
+  wholeDescriptionOutputRef,
+}) => {
   const dataName = data[SECTIONS.NAME];
   const dataDescription = data[SECTIONS.DESCRIPTION];
   const dataSpecification = data[SECTIONS.SPECIFICATION];
@@ -75,7 +80,11 @@ const Result = ({ data, subiektOutputRef, nsOutputRef }) => {
 
   const additionalInfo = dataAdditionalInfo.map((row) => {
     const value = row[KEYS.VALUE].trim();
-    return value && <li key={row.id}>{value}</li>;
+    return (
+      value && (
+        <li key={row.id} dangerouslySetInnerHTML={{ __html: value }}></li>
+      )
+    );
   });
 
   const set = dataSet.map((row) => {
@@ -212,6 +221,29 @@ const Result = ({ data, subiektOutputRef, nsOutputRef }) => {
               />
             )}
             {dataSet.length > 0 && <SetResult set={set} />}
+          </output>
+        </div>
+        <div className={styles.hidden}>
+          <output ref={wholeDescriptionOutputRef}>
+            <NameResult name={name} />
+            <CharacteristicsResult characteristics={description} />
+            {dataSpecification.length > 0 && (
+              <SpecificationResult
+                specification={specification}
+                guarantee={guarantee}
+                model={getModel()}
+                manufacturer={getManufacturer()}
+              />
+            )}
+            {dataAdditionalInfo.length > 0 && (
+              <AdditionalInfoResult
+                additionalInfo={additionalInfo}
+                model={getModel()}
+                manufacturer={getManufacturer()}
+              />
+            )}
+            {dataSet.length > 0 && <SetResult set={set} />}
+            {additionalSections}
           </output>
         </div>
       </div>
