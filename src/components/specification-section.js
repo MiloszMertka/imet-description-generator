@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { ReactSortable } from "react-sortablejs";
 
@@ -12,7 +12,6 @@ import Section from "./section";
 import Input from "./input";
 import Button from "./button";
 import Controls from "./controls";
-import Select from "./select";
 
 const SpecificationSection = ({
   data,
@@ -20,9 +19,6 @@ const SpecificationSection = ({
   handleButtonClick,
   handleCrossClick,
   handleReorder,
-  templatesNames,
-  currentTemplate,
-  handleSelectChange,
 }) => {
   const rows = data.map((item) => (
     <div key={item.id} className={formSectionStyles.inputRow}>
@@ -48,25 +44,8 @@ const SpecificationSection = ({
     </div>
   ));
 
-  const selectOptions = useMemo(
-    () =>
-      templatesNames.map((templateName) => ({
-        name: templateName,
-        value: templateName,
-      })),
-    [templatesNames]
-  );
-
   return (
     <Section title={`Dane techniczne`}>
-      <div className={formSectionStyles.general}>
-        <Select
-          id={`templates`}
-          value={currentTemplate}
-          handleChange={handleSelectChange}
-          options={selectOptions}
-        />
-      </div>
       <ReactSortable
         list={data}
         setList={(newState) => handleReorder(SECTIONS.SPECIFICATION, newState)}
@@ -104,9 +83,6 @@ SpecificationSection.propTypes = {
   handleButtonClick: PropTypes.func.isRequired,
   handleCrossClick: PropTypes.func.isRequired,
   handleReorder: PropTypes.func.isRequired,
-  templatesNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-  currentTemplate: PropTypes.string.isRequired,
-  handleSelectChange: PropTypes.func.isRequired,
 };
 
 export default SpecificationSection;

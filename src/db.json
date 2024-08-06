@@ -3,11 +3,15 @@
     {
       "id": 1,
       "name": "Wkrętarki",
+      "name_template": "Wkrętarka [marka] [model]",
+      "characteristics_template": "Moc: [moc], Typ: [typ], Moment obrotowy: [moment_obrotowy]",
       "attributes": ["Moc", "Typ", "Moment obrotowy"]
     },
     {
       "id": 2,
       "name": "Tarcze",
+      "name_template": "Tarcza [marka] [model]",
+      "characteristics_template": "Średnica: [średnica], Materiał: [materiał], Rodzaj: [rodzaj]",
       "attributes": ["Materiał", "Rozmiar", "Typ"]
     }
   ],

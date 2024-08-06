@@ -23,6 +23,7 @@ import AdditionalInfoSection from "./additional-info-section";
 import AdditionalSections from "./additional-sections";
 import Button from "./button";
 import Result from "./result";
+import TemplateSection from "./template-section";
 
 const initialState = {
   [SECTIONS.NAME]: "",
@@ -249,7 +250,7 @@ const reducer = (state, action) => {
         (template) => template.name === action.value
       );
 
-      const templateRows = selectedTemplate.attributes.map((attribute) => ({
+      const attributes = selectedTemplate.attributes.map((attribute) => ({
         id: uuidv4(),
         [KEYS.LABEL]: attribute,
         [KEYS.VALUE]: "",
@@ -258,8 +259,10 @@ const reducer = (state, action) => {
 
       return {
         ...state,
+        [SECTIONS.NAME]: selectedTemplate.nameTemplate ?? "",
+        [SECTIONS.DESCRIPTION]: selectedTemplate.characteristicsTemplate ?? "",
         [SECTIONS.SPECIFICATION]: [
-          ...templateRows,
+          ...attributes,
           ...state[SECTIONS.SPECIFICATION].filter((row) => !row.template),
         ],
       };
@@ -272,7 +275,13 @@ const GeneratorForm = () => {
   const { addToast } = useToasts();
 
   const [templates, setTemplates] = useState([
-    { id: "defaultTemplate", name: "Szablon", attributes: [] },
+    {
+      id: "defaultTemplate",
+      name: "Szablon",
+      nameTemplate: "",
+      characteristicsTemplate: "",
+      attributes: [],
+    },
   ]);
 
   const [currentTemplate, setCurrentTemplate] = useState("Szablon");
@@ -289,7 +298,14 @@ const GeneratorForm = () => {
       const guarantees = await getDataFromAPI("/guarantees");
 
       if (templates) {
-        setTemplates((prevState) => [...prevState, ...templates]);
+        const mappedTemplates = templates.map((template) => ({
+          id: template.id,
+          name: template.name,
+          nameTemplate: template.name_template,
+          characteristicsTemplate: template.characteristics_template,
+          attributes: template.attributes,
+        }));
+        setTemplates((prevState) => [...prevState, ...mappedTemplates]);
       } else {
         addToast("Błąd pobierania szablonów", { appearance: "error" });
       }
@@ -369,9 +385,11 @@ const GeneratorForm = () => {
 
   const handleTemplateSelectChange = useCallback(
     (event) => {
-      const value = event.target.value;
-      setCurrentTemplate(value);
-      dispatch({ type: ACTION_TYPES.LOAD_TEMPLATE, value, templates });
+      if (window.confirm("Czy na pewno chcesz załadować nowy szablon?")) {
+        const value = event.target.value;
+        setCurrentTemplate(value);
+        dispatch({ type: ACTION_TYPES.LOAD_TEMPLATE, value, templates });
+      }
     },
     [templates]
   );
@@ -436,6 +454,11 @@ const GeneratorForm = () => {
 
   return (
     <form action="" className={styles.container}>
+      <TemplateSection
+        handleChange={handleTemplateSelectChange}
+        templatesNames={templatesNames}
+        currentTemplate={currentTemplate}
+      />
       <GeneralSection
         handleChange={handleChange}
         name={state[SECTIONS.NAME]}
@@ -447,9 +470,6 @@ const GeneratorForm = () => {
         handleButtonClick={handleAddInputButtonClick}
         handleCrossClick={handleCrossClick}
         handleReorder={handleReorder}
-        templatesNames={templatesNames}
-        currentTemplate={currentTemplate}
-        handleSelectChange={handleTemplateSelectChange}
       />
       <GuaranteeSection
         currentGuarantee={state[SECTIONS.GUARANTEE]}

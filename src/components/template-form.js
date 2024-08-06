@@ -27,17 +27,28 @@ const TemplateForm = ({ isAuthenticated, token }) => {
     {
       id: "newTemplate",
       name: "Nowy szablon",
+      nameTemplate: "",
+      characteristicsTemplate: "",
       attributes: [""],
     },
   ]);
 
+  const [nameTemplate, setNameTemplate] = useState("");
+  const [characteristicsTemplate, setCharacteristicsTemplate] = useState("");
   const [attributes, setAttributes] = useState([{ id: uuidv4(), value: "" }]);
 
   useEffect(() => {
     const fetchData = async () => {
       const templates = await getDataFromAPI("/templates");
       if (templates) {
-        setTemplates((prevState) => [...prevState, ...templates]);
+        const mappedTemplates = templates.map((template) => ({
+          id: template.id,
+          name: template.name,
+          nameTemplate: template.name_template,
+          characteristicsTemplate: template.characteristics_template,
+          attributes: template.attributes,
+        }));
+        setTemplates((prevState) => [...prevState, ...mappedTemplates]);
       } else {
         addToast("Błąd pobierania szablonów", { appearance: "error" });
       }
@@ -53,14 +64,13 @@ const TemplateForm = ({ isAuthenticated, token }) => {
     (event) => {
       setTemplateName(event.target.value);
       setCurrentTemplate(event.target.value);
-      let mappedAttributes = [];
-      templates.forEach((template) => {
-        if (template.name === event.target.value) {
-          return (mappedAttributes = template.attributes);
-        }
-      });
+      const template = templates.find(
+        (template) => template.name === event.target.value
+      );
+      setNameTemplate(template.nameTemplate ?? "");
+      setCharacteristicsTemplate(template.characteristicsTemplate ?? "");
       setAttributes(
-        mappedAttributes.map((attribute) => ({
+        template.attributes.map((attribute) => ({
           id: uuidv4(),
           value: attribute,
         }))
@@ -68,6 +78,14 @@ const TemplateForm = ({ isAuthenticated, token }) => {
     },
     [templates]
   );
+
+  const handleNameTemplateChange = useCallback((event) => {
+    setNameTemplate(event.target.value);
+  }, []);
+
+  const handleCharacteristicsTemplateChange = useCallback((event) => {
+    setCharacteristicsTemplate(event.target.value);
+  }, []);
 
   const handleCrossClick = useCallback((id) => {
     setAttributes((prevState) =>
@@ -99,6 +117,8 @@ const TemplateForm = ({ isAuthenticated, token }) => {
         const data = {
           currentTemplate,
           templateName,
+          nameTemplate,
+          characteristicsTemplate,
           attributes: attributes.map((attribute) => attribute.value),
         };
 
@@ -111,7 +131,15 @@ const TemplateForm = ({ isAuthenticated, token }) => {
         }
       }
     },
-    [currentTemplate, templateName, attributes, token, addToast]
+    [
+      currentTemplate,
+      templateName,
+      nameTemplate,
+      characteristicsTemplate,
+      attributes,
+      token,
+      addToast,
+    ]
   );
 
   const selectOptions = useMemo(
@@ -130,12 +158,25 @@ const TemplateForm = ({ isAuthenticated, token }) => {
           id={`name`}
           value={templateName}
           handleChange={handleTemplateNameChange}
+          placeholder={`Nazwa szablonu`}
         />
         <Select
           id={`templates`}
           value={currentTemplate}
           handleChange={handleTemplateSelectChange}
           options={selectOptions}
+        />
+        <Input
+          id={`nameTemplate`}
+          value={nameTemplate}
+          handleChange={handleNameTemplateChange}
+          placeholder={`Szablon nazwy`}
+        />
+        <Input
+          id={`characteristicsTemplate`}
+          value={characteristicsTemplate}
+          handleChange={handleCharacteristicsTemplateChange}
+          placeholder={`Szablon charakterystyki`}
         />
       </div>
       <ReactSortable
